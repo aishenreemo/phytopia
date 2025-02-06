@@ -1,9 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://tge2of72lajn"]
+[gd_scene load_steps=38 format=3 uid="uid://tge2of72lajn"]
 
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="1_iulga"]
 [ext_resource type="Texture2D" uid="uid://drv3bniy05v8" path="res://assets/images/background.png" id="1_rr7py"]
 [ext_resource type="Script" path="res://scripts/simulation.gd" id="2_4dgcl"]
-[ext_resource type="Texture2D" uid="uid://y0dw05p5des6" path="res://assets/images/rocks.png" id="2_6n6cd"]
 [ext_resource type="Shader" path="res://assets/shaders/star.gdshader" id="2_fxuqu"]
 [ext_resource type="Shader" path="res://assets/shaders/clouds.gdshader" id="2_ij2om"]
 [ext_resource type="PackedScene" uid="uid://c2i3ycaqd1wk1" path="res://scenes/planet.tscn" id="3_77pxh"]
@@ -11,9 +10,20 @@
 [ext_resource type="FontFile" uid="uid://3wesre6ep2l7" path="res://assets/fonts/Blanka/Blanka-Regular.otf" id="4_gvxlx"]
 [ext_resource type="Texture2D" uid="uid://x503xdoodod0" path="res://assets/images/astronaut_1.png" id="4_kbo3u"]
 [ext_resource type="Script" path="res://scripts/components/wave.gd" id="5_tiufl"]
+[ext_resource type="Script" path="res://scripts/router/mission.gd" id="7_82i05"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="9_1876u"]
 [ext_resource type="Script" path="res://scripts/router/home.gd" id="10_dxws8"]
+[ext_resource type="Texture2D" uid="uid://beh8fbbvx1lly" path="res://assets/images/rocks.svg" id="10_kg2sm"]
 [ext_resource type="Script" path="res://scripts/router/lobby.gd" id="11_g0oy0"]
+[ext_resource type="Texture2D" uid="uid://qi8csml4djp1" path="res://assets/images/mars.svg" id="15_d2b0h"]
+[ext_resource type="Script" path="res://scripts/components/button_animation.gd" id="16_1wcpu"]
+[ext_resource type="Texture2D" uid="uid://duejtyutfr7ou" path="res://assets/images/jupiter.svg" id="16_rt3kp"]
+[ext_resource type="Texture2D" uid="uid://cawrargnetl76" path="res://assets/images/saturn.svg" id="17_fqhgp"]
+[ext_resource type="Texture2D" uid="uid://cnui4brer1h2j" path="res://assets/images/astronaut_2.svg" id="18_o1sx3"]
+[ext_resource type="Texture2D" uid="uid://b853cdd4j1i86" path="res://assets/images/space_rocket.svg" id="18_pgsbd"]
+[ext_resource type="Texture2D" uid="uid://dwplr3xwfhx8b" path="res://assets/images/phytopialogo.svg" id="20_tcu8v"]
+[ext_resource type="Texture2D" uid="uid://c84pgkek4ckdj" path="res://assets/images/earth.svg" id="21_h8o00"]
+[ext_resource type="Texture2D" uid="uid://dagjr55epaqmn" path="res://assets/images/back.svg" id="24_ipvdt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sibj0"]
 shader = ExtResource("2_fxuqu")
@@ -87,6 +97,7 @@ corner_radius_bottom_left = 25
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
+visible = false
 enabled = false
 limit_smoothed = true
 position_smoothing_enabled = true
@@ -95,6 +106,7 @@ script = ExtResource("1_iulga")
 multiplier = 1024
 
 [node name="Game" type="Node2D" parent="." groups=["simulation"]]
+visible = false
 script = ExtResource("2_4dgcl")
 
 [node name="Trajectories" type="Node2D" parent="Game"]
@@ -102,20 +114,20 @@ script = ExtResource("2_4dgcl")
 [node name="Planets" type="Node2D" parent="Game"]
 
 [node name="Planet" parent="Game/Planets" instance=ExtResource("3_77pxh")]
-mass = 108000.0
+mass = 320731.0
 surface_gravity = 300.0
 radius = 600.0
 
 [node name="Planet2" parent="Game/Planets" instance=ExtResource("3_77pxh")]
 position = Vector2(-3122, 0)
-mass = 392.0
+mass = 1164.13
 linear_velocity = Vector2(0, 190)
 radius = 200.0
 initial_velocity = Vector2(0, 190)
 
 [node name="Clock" type="Timer" parent="Game"]
 process_callback = 0
-wait_time = 10.0
+wait_time = 0.5
 autostart = true
 
 [node name="Router" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
@@ -123,23 +135,37 @@ process_mode = 3
 process_priority = 1
 process_physics_priority = 1
 script = ExtResource("9_1876u")
-initial_state = NodePath("Lobby")
+initial_state = NodePath("Home")
 
-[node name="Home" type="Node" parent="Router" node_paths=PackedStringArray("control", "start_button", "line_edit")]
+[node name="Home" type="Node" parent="Router" node_paths=PackedStringArray("main_control", "main_menu_container", "lobby_container", "start_button", "line_edit")]
 script = ExtResource("10_dxws8")
-control = NodePath("../../UserInterface/HomeControl")
-start_button = NodePath("../../UserInterface/HomeControl/VBoxContainer/HBoxContainer3/Button")
-line_edit = NodePath("../../UserInterface/HomeControl/VBoxContainer/HBoxContainer2/LineEdit")
+main_control = NodePath("../../UserInterface/MainControl")
+main_menu_container = NodePath("../../UserInterface/MainControl/MainMenuContainer")
+lobby_container = NodePath("../../UserInterface/MainControl/LobbyContainer")
+start_button = NodePath("../../UserInterface/MainControl/MainMenuContainer/HBoxContainer3/Button")
+line_edit = NodePath("../../UserInterface/MainControl/MainMenuContainer/HBoxContainer2/LineEdit")
 
-[node name="Lobby" type="Node" parent="Router" node_paths=PackedStringArray("camera_2d")]
+[node name="Lobby" type="Node" parent="Router" node_paths=PackedStringArray("main_menu_container", "lobby_container", "mission_container", "camera_2d", "rocks", "jupiter", "mars", "saturn")]
 script = ExtResource("11_g0oy0")
+main_menu_container = NodePath("../../UserInterface/MainControl/MainMenuContainer")
+lobby_container = NodePath("../../UserInterface/MainControl/LobbyContainer")
+mission_container = NodePath("../../UserInterface/MainControl/MissionContainer")
 camera_2d = NodePath("../../Camera2D")
+rocks = NodePath("../../UserInterface/MainControl/Rocks")
+jupiter = NodePath("../../UserInterface/MainControl/LobbyContainer/Control/Jupiter")
+mars = NodePath("../../UserInterface/MainControl/LobbyContainer/Control/Mars")
+saturn = NodePath("../../UserInterface/MainControl/LobbyContainer/Control/Saturn")
+
+[node name="Mission" type="Node" parent="Router" node_paths=PackedStringArray("mission_container", "lobby_container", "back_button")]
+script = ExtResource("7_82i05")
+mission_container = NodePath("../../UserInterface/MainControl/MissionContainer")
+lobby_container = NodePath("../../UserInterface/MainControl/LobbyContainer")
+back_button = NodePath("../../UserInterface/MainControl/MissionContainer/Control/BackButton")
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
 process_mode = 3
 
-[node name="HomeControl" type="Control" parent="UserInterface"]
-visible = false
+[node name="MainControl" type="Control" parent="UserInterface"]
 layout_direction = 2
 layout_mode = 3
 anchors_preset = 15
@@ -148,7 +174,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="TextureRect" parent="UserInterface/HomeControl"]
+[node name="Background" type="TextureRect" parent="UserInterface/MainControl"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -158,7 +184,7 @@ grow_vertical = 2
 texture = ExtResource("1_rr7py")
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="UserInterface/HomeControl"]
+[node name="Stars" type="ColorRect" parent="UserInterface/MainControl"]
 material = SubResource("ShaderMaterial_sibj0")
 layout_mode = 1
 anchors_preset = 15
@@ -167,7 +193,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Clouds" type="ColorRect" parent="UserInterface/HomeControl"]
+[node name="Clouds" type="ColorRect" parent="UserInterface/MainControl"]
 material = SubResource("ShaderMaterial_h0h7s")
 layout_mode = 1
 anchors_preset = 15
@@ -177,17 +203,18 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0.776352, 0.7394, 1)
 
-[node name="TextureRect2" type="TextureRect" parent="UserInterface/HomeControl"]
+[node name="Rocks" type="TextureRect" parent="UserInterface/MainControl"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_6n6cd")
+texture = ExtResource("10_kg2sm")
 expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UserInterface/HomeControl"]
+[node name="MainMenuContainer" type="VBoxContainer" parent="UserInterface/MainControl"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -197,17 +224,17 @@ grow_vertical = 2
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="Control" type="Control" parent="UserInterface/HomeControl/VBoxContainer"]
+[node name="Control" type="Control" parent="UserInterface/MainControl/MainMenuContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 
-[node name="Control3" type="Control" parent="UserInterface/HomeControl/VBoxContainer"]
+[node name="Control3" type="Control" parent="UserInterface/MainControl/MainMenuContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Label" type="Label" parent="UserInterface/HomeControl/VBoxContainer/Control3"]
+[node name="Label" type="Label" parent="UserInterface/MainControl/MainMenuContainer/Control3"]
 layout_mode = 2
 anchor_left = 0.073
 anchor_right = 0.454
@@ -220,78 +247,83 @@ text = "PHYT"
 label_settings = SubResource("LabelSettings_2oq88")
 vertical_alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserInterface/HomeControl/VBoxContainer/Control3"]
+[node name="Asstronaut" type="TextureRect" parent="UserInterface/MainControl/MainMenuContainer/Control3"]
 custom_minimum_size = Vector2(260, 260)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.451562
 anchor_right = 0.654688
 anchor_bottom = 0.921986
-rotation = -0.153328
+rotation = 0.162662
 pivot_offset = Vector2(173, 180)
 texture = ExtResource("4_kbo3u")
 expand_mode = 2
 stretch_mode = 4
 metadata/_edit_use_anchors_ = true
 
-[node name="Node" type="Node" parent="UserInterface/HomeControl/VBoxContainer/Control3/TextureRect"]
+[node name="Node" type="Node" parent="UserInterface/MainControl/MainMenuContainer/Control3/Asstronaut"]
 script = ExtResource("5_tiufl")
 
-[node name="Label2" type="Label" parent="UserInterface/HomeControl/VBoxContainer/Control3"]
+[node name="Label2" type="Label" parent="UserInterface/MainControl/MainMenuContainer/Control3"]
 layout_mode = 2
-anchor_left = 0.672656
+anchor_left = 0.673
+anchor_top = 0.062
 anchor_right = 0.925781
 anchor_bottom = 0.921986
+offset_left = -0.440369
+offset_top = -17.484
 size_flags_vertical = 1
 text = "PIA"
 label_settings = SubResource("LabelSettings_gcktk")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="UserInterface/HomeControl/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="UserInterface/MainControl/MainMenuContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 alignment = 1
 
-[node name="Control" type="Control" parent="UserInterface/HomeControl/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="UserInterface/MainControl/MainMenuContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="LineEdit" type="LineEdit" parent="UserInterface/HomeControl/VBoxContainer/HBoxContainer2"]
+[node name="LineEdit" type="LineEdit" parent="UserInterface/MainControl/MainMenuContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 1
 theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0.32549, 0.156863, 0.431373, 0.721569)
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("FontVariation_73spj")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_uicf5")
 theme_override_styles/normal = SubResource("StyleBoxFlat_08exc")
+placeholder_text = "Enter your fucking name..."
 alignment = 1
 
-[node name="Control2" type="Control" parent="UserInterface/HomeControl/VBoxContainer/HBoxContainer2"]
+[node name="Control2" type="Control" parent="UserInterface/MainControl/MainMenuContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="UserInterface/HomeControl/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="UserInterface/MainControl/MainMenuContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 alignment = 1
 
-[node name="Control" type="Control" parent="UserInterface/HomeControl/VBoxContainer/HBoxContainer3"]
+[node name="Control" type="Control" parent="UserInterface/MainControl/MainMenuContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.25
 
-[node name="Button" type="Button" parent="UserInterface/HomeControl/VBoxContainer/HBoxContainer3"]
+[node name="Button" type="Button" parent="UserInterface/MainControl/MainMenuContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -308,14 +340,206 @@ text = "START
 "
 icon_alignment = 1
 
-[node name="Control2" type="Control" parent="UserInterface/HomeControl/VBoxContainer/HBoxContainer3"]
+[node name="Control2" type="Control" parent="UserInterface/MainControl/MainMenuContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.25
 
-[node name="Control2" type="Control" parent="UserInterface/HomeControl/VBoxContainer"]
+[node name="Control2" type="Control" parent="UserInterface/MainControl/MainMenuContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="LobbyContainer" type="VBoxContainer" parent="UserInterface/MainControl"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="UserInterface/MainControl/LobbyContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UserInterface/MainControl/LobbyContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 180.0
+offset_top = 17.0
+offset_right = 742.0
+offset_bottom = 191.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 1
+text = "select a misson"
+label_settings = SubResource("LabelSettings_2oq88")
+vertical_alignment = 2
+
+[node name="Mars" type="TextureButton" parent="UserInterface/MainControl/LobbyContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1583.0
+offset_top = -948.0
+offset_right = 767.0
+offset_bottom = 1402.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0488924
+scale = Vector2(0.1, 0.1)
+pivot_offset = Vector2(1175, 1175)
+texture_normal = ExtResource("15_d2b0h")
+stretch_mode = 0
+
+[node name="WaveComponent" type="Node" parent="UserInterface/MainControl/LobbyContainer/Control/Mars"]
+script = ExtResource("5_tiufl")
+wave_speed = 0.5
+
+[node name="AnimationComponent" type="Node" parent="UserInterface/MainControl/LobbyContainer/Control/Mars"]
+script = ExtResource("16_1wcpu")
+hover_scale = Vector2(0.11, 0.11)
+
+[node name="Saturn" type="TextureButton" parent="UserInterface/MainControl/LobbyContainer/Control"]
+layout_mode = 0
+offset_left = -628.0
+offset_top = -847.0
+offset_right = 2881.0
+offset_bottom = 1389.0
+rotation = 0.176894
+scale = Vector2(0.1, 0.1)
+pivot_offset = Vector2(1754.5, 1118)
+texture_normal = ExtResource("17_fqhgp")
+stretch_mode = 0
+
+[node name="WaveComponent" type="Node" parent="UserInterface/MainControl/LobbyContainer/Control/Saturn"]
+script = ExtResource("5_tiufl")
+wave_amplitude = 15.0
+wave_speed = 0.2
+
+[node name="AnimationComponent" type="Node" parent="UserInterface/MainControl/LobbyContainer/Control/Saturn"]
+script = ExtResource("16_1wcpu")
+hover_scale = Vector2(0.11, 0.11)
+
+[node name="Jupiter" type="TextureButton" parent="UserInterface/MainControl/LobbyContainer/Control"]
+layout_mode = 0
+offset_left = -862.0
+offset_top = -1170.0
+offset_right = 2138.0
+offset_bottom = 1830.0
+rotation = 0.162662
+scale = Vector2(0.1, 0.1)
+pivot_offset = Vector2(1500, 1500)
+texture_normal = ExtResource("16_rt3kp")
+stretch_mode = 0
+
+[node name="WaveComponent" type="Node" parent="UserInterface/MainControl/LobbyContainer/Control/Jupiter"]
+script = ExtResource("5_tiufl")
+
+[node name="AnimationComponent" type="Node" parent="UserInterface/MainControl/LobbyContainer/Control/Jupiter"]
+script = ExtResource("16_1wcpu")
+hover_scale = Vector2(0.11, 0.11)
+
+[node name="Rcokcet" type="TextureRect" parent="UserInterface/MainControl/LobbyContainer/Control"]
+layout_mode = 0
+offset_left = 617.0
+offset_top = 462.0
+offset_right = 3117.0
+offset_bottom = 3092.0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("18_pgsbd")
+
+[node name="Astronaut" type="TextureRect" parent="UserInterface/MainControl/LobbyContainer/Control"]
+layout_mode = 0
+offset_left = -55.9999
+offset_top = -0.678118
+offset_right = 1244.0
+offset_bottom = 1299.32
+rotation = -0.0118354
+scale = Vector2(0.1, 0.1)
+pivot_offset = Vector2(650, 650)
+texture = ExtResource("18_o1sx3")
+stretch_mode = 5
+
+[node name="MissionContainer" type="VBoxContainer" parent="UserInterface/MainControl"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="UserInterface/MainControl/MissionContainer"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="UserInterface/MainControl/MissionContainer/Control"]
+layout_mode = 2
+offset_left = 443.0
+offset_top = 14.0
+offset_right = 4163.0
+offset_bottom = 924.0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("20_tcu8v")
+
+[node name="TextureRect" type="TextureRect" parent="UserInterface/MainControl/MissionContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -496.0
+offset_top = 103.0
+offset_right = 2184.0
+offset_bottom = 2763.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("21_h8o00")
+
+[node name="Rcokcet" type="TextureRect" parent="UserInterface/MainControl/MissionContainer/Control"]
+layout_mode = 2
+offset_left = 617.0
+offset_top = 462.0
+offset_right = 3117.0
+offset_bottom = 3092.0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("18_pgsbd")
+
+[node name="Astronaut" type="TextureRect" parent="UserInterface/MainControl/MissionContainer/Control"]
+layout_mode = 2
+offset_left = -55.9999
+offset_top = -0.678101
+offset_right = 1244.0
+offset_bottom = 1299.32
+rotation = -0.0118354
+scale = Vector2(0.1, 0.1)
+pivot_offset = Vector2(650, 650)
+texture = ExtResource("18_o1sx3")
+stretch_mode = 5
+
+[node name="BackButton" type="TextureButton" parent="UserInterface/MainControl/MissionContainer/Control"]
+layout_mode = 0
+offset_left = -3009.0
+offset_top = -2890.0
+offset_right = 3151.0
+offset_bottom = 3020.0
+scale = Vector2(0.01, 0.01)
+pivot_offset = Vector2(3080, 2955)
+texture_normal = ExtResource("24_ipvdt")
+stretch_mode = 0
+
+[node name="AnimationComponent" type="Node" parent="UserInterface/MainControl/MissionContainer/Control/BackButton"]
+script = ExtResource("16_1wcpu")
+hover_scale = Vector2(0.015, 0.015)
+click_scale = Vector2(0.01, 0.01)
 
 [connection signal="timeout" from="Game/Clock" to="Game" method="_on_clock_timeout"]

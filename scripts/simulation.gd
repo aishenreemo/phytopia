@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 	_on_clock_timeout()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var planets := get_tree().get_nodes_in_group("planet")
 	var trajectories := $Trajectories.get_children()
 	
@@ -50,7 +50,7 @@ func _on_clock_timeout() -> void:
 	var delta = 1.0 / Engine.physics_ticks_per_second
 	var planets = get_tree().get_nodes_in_group("planet")
 	var trajectories = $Trajectories.get_children()
-	var duration = $Clock.wait_time * 15.0
+	var duration = 100.0
 	var current_duration = 0.0
 	var positions = []
 	var velocities = []
