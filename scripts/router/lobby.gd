@@ -1,68 +1,67 @@
 extends State
 
-@export var main_menu_container: VBoxContainer
-@export var lobby_container: VBoxContainer
-@export var mission_container: VBoxContainer
+@export var main_control: MainControl
 @export var camera_2d: Camera2D
 @export var rocks: TextureRect
 
-@export var jupiter: TextureButton
-@export var mars: TextureButton
-@export var saturn: TextureButton
-
-func enter(_previous_state: String) -> void:
-	if State.has_null([
-		self.rocks,
-		self.main_menu_container,
-	]):
-		
-		return
-		
-	jupiter.pressed.connect(jupiter_select)
-	mars.pressed.connect(mars_select)
-	saturn.pressed.connect(saturn_select)
-	
-	get_tree().paused = false
-	var tween = get_tree().create_tween().set_parallel(true)
+func enter(previous_state: String) -> void:
+	self.main_control.show()
+	self.main_control.lobby_control.show()
+	self.main_control.mission_control.hide()
+	var tween = get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_SINE)
+	
+	if previous_state == "home":
+		tween.tween_property(
+			self.rocks,
+			"position:y",
+			100,
+			2.0
+		)
+		
 	tween.tween_property(
-		self.rocks,
-		"position:y",
-		100,
-		2.0
-	)
-	tween.tween_property(
-		self.main_menu_container,
+		self.main_control.main_menu_control,
 		"modulate",
 		Color(1, 1, 1, 0),
 		0.5
 	)
 	
-	self.lobby_container.show()
-	self.lobby_container.modulate = Color(1, 1, 1, 0)
+	self.main_control.lobby_control.modulate = Color(1, 1, 1, 0)
 	
 	tween.chain().tween_property(
-		self.lobby_container,
+		self.main_control.lobby_control,
 		"modulate",
 		Color(1, 1, 1, 1),
 		0.5
 	)
 	
 	await tween.finished
-	self.main_menu_container.hide()
+	self.main_control.main_menu_control.hide()
 	
 func exit() -> void:
-	pass
+	var tween = get_tree().create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(
+		self.main_control.lobby_control,
+		"modulate",
+		Color(1, 1, 1, 0),
+		0.5
+	)
+	await tween.finished
 
-func jupiter_select():
-	print("dkjfhdsfujkkgbhs")
+func _on_mars_pressed() -> void:
 	self.finished.emit("mission")
-	
-func mars_select():
-	print("dkjfhdsfujkkgbhs")
+
+func _on_jupiter_pressed() -> void:
 	self.finished.emit("mission")
-	
-func saturn_select():
-	print("dkjfhdsfujkkgbhs")
+
+func _on_saturn_pressed() -> void:
 	self.finished.emit("mission")
+
+func _on_back_button_pressed() -> void:
+	self.finished.emit("home")

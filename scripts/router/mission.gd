@@ -1,53 +1,47 @@
 extends State
 
-@export var mission_container: VBoxContainer
-@export var lobby_container: VBoxContainer
+@export var main_control: MainControl
 @export var back_button: TextureButton
-
+@export var start_button: Button
 
 func enter(_previous_state: String) -> void:
-	if State.has_null([
-		self.lobby_container
-	]):
-		
-		return
-	
-#	back_button.pressed.connect(on_back_button_pressed)
-	
-	get_tree().paused = false
-	var tween = get_tree().create_tween().set_parallel(true)
+	var tween = get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_SINE)
-	tween.tween_property(
-		self.lobby_container,
-		"modulate",
-		Color(1, 1, 1, 0),
-		0.5
-	)
-	self.mission_container.show()
-	self.mission_container.modulate = Color(1, 1, 1, 0)
 	
-	tween.chain().tween_property(
-		self.mission_container,
+	self.main_control.mission_control.show()
+	self.main_control.mission_control.modulate = Color(1, 1, 1, 0)
+	
+	tween.tween_property(
+		self.main_control.mission_control,
 		"modulate",
 		Color(1, 1, 1, 1),
 		0.5
 	)
+	
 	await tween.finished
-	self.lobby_container.hide()
+	self.main_control.lobby_control.hide()
 	
 func exit() -> void:
-	pass
+	var tween = get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.set_trans(Tween.TRANS_SINE)
+		
+	tween.tween_property(
+		self.main_control.mission_control,
+		"modulate",
+		Color(1, 1, 1, 0),
+		0.5
+	)
+	
+	await tween.finished
 
-#func on_back_button_pressed():
-#	var tween = get_tree().create_tween().set_parallel(true)
-#	tween.set_ease(Tween.EASE_IN_OUT)
-#	tween.set_trans(Tween.TRANS_SINE)
-#	tween.tween_property(
-#		self.mission_container,
-#		"modulate",
-#		Color(1, 1, 1, 0),
-#		0.5
-#	)
-#	print("dkjfhdsfujkkgbhs")
-#	self.finished.emit("lobby")
+func _on_back_button_pressed() -> void:
+	self.finished.emit("lobby")
+
+func _on_start_mission_button_pressed() -> void:
+	self.finished.emit("game")
