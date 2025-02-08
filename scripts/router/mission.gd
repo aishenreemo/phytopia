@@ -1,47 +1,45 @@
 extends State
 
-@export var main_control: MainControl
-@export var back_button: TextureButton
-@export var start_button: Button
+@export var ui_control: UIControl
 
-func enter(_previous_state: String) -> void:
-	var tween = get_tree().create_tween()
-	tween.set_parallel(true)
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.set_trans(Tween.TRANS_SINE)
-	
-	self.main_control.mission_control.show()
-	self.main_control.mission_control.modulate = Color(1, 1, 1, 0)
-	
-	tween.tween_property(
-		self.main_control.mission_control,
-		"modulate",
-		Color(1, 1, 1, 1),
-		0.5
-	)
-	
-	await tween.finished
-	self.main_control.lobby_control.hide()
-	
-func exit() -> void:
-	var tween = get_tree().create_tween()
-	tween.set_parallel(true)
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.set_trans(Tween.TRANS_SINE)
+func enter(previous_state: String, data: Dictionary):
+	if previous_state != "lobby":
+		return
 		
-	tween.tween_property(
-		self.main_control.mission_control,
-		"modulate",
-		Color(1, 1, 1, 0),
-		0.5
+	if self.ui_control == null:
+		push_error("UI Control missing")
+		return
+
+	get_tree().paused = true
+	
+	self.ui_control.show()
+	self.ui_control.hide_all(["Title", "BackButton", "AstronautRocket"])
+	
+	var back_buttton = self.ui_control.get_node("BackButton") as TextureButton
+	var earth = self.ui_control.get_node("Earth") as TextureRect
+	var dialogue_panel = self.ui_control.get_node("DialoguePanel") as Panel
+	var start_mission_button = self.ui_control.get_node("StartMissionButton") as Button
+	
+	for dictionary in back_buttton.pressed.get_connections():
+		back_buttton.pressed.disconnect(dictionary["callable"])
+	
+	back_buttton.pressed.connect(func():
+		data.erase("mission")
+		self.finished.emit("lobby", data)
 	)
 	
-	await tween.finished
+	for dictionary in start_mission_button.pressed.get_connections():
+		start_mission_button.pressed.disconnect(dictionary["callable"])
+	
+	start_mission_button.pressed.connect(func(): self.finished.emit("game", data))
+	
+	for control in [earth, dialogue_panel, start_mission_button]:
+		control.show()
+	self.ui_control.fade_in([earth, dialogue_panel, start_mission_button])
 
-func _on_back_button_pressed() -> void:
-	self.finished.emit("lobby")
-
-func _on_start_mission_button_pressed() -> void:
-	self.finished.emit("game")
+func exit(next_state: String):
+	var earth = self.ui_control.get_node("Earth") as TextureRect
+	var dialogue_panel = self.ui_control.get_node("DialoguePanel") as Panel
+	var start_mission_button = self.ui_control.get_node("StartMissionButton") as Button
+	if next_state == "lobby":
+		self.ui_control.fade_out([earth, dialogue_panel, start_mission_button])

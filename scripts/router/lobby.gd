@@ -1,67 +1,53 @@
 extends State
 
-@export var main_control: MainControl
-@export var camera_2d: Camera2D
-@export var rocks: TextureRect
+@export var ui_control: UIControl
 
-func enter(previous_state: String) -> void:
-	self.main_control.show()
-	self.main_control.lobby_control.show()
-	self.main_control.mission_control.hide()
-	var tween = get_tree().create_tween()
-	tween.set_parallel(true)
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.set_trans(Tween.TRANS_SINE)
+func enter(previous_state: String, data: Dictionary):
+	if self.ui_control == null:
+		push_error("UI Control missing")
+		return
+
+	get_tree().paused = true
 	
-	if previous_state == "home":
-		tween.tween_property(
-			self.rocks,
-			"position:y",
-			100,
-			2.0
+	self.ui_control.show()
+	self.ui_control.hide_all(["Title"])
+	
+	var astronaut_rocket = self.ui_control.get_node("AstronautRocket") as Control
+	var back_buttton = self.ui_control.get_node("BackButton") as TextureButton
+	var title = self.ui_control.get_node("Title") as Control
+	
+	var select_mission_label = self.ui_control.get_node("SelectMissionLabel") as Label
+	var planet_selection = self.ui_control.get_node("PlanetSelection") as Control
+	
+	title.position = Vector2(0, -50)
+	title.scale = Vector2.ONE / 2.0
+	
+	for control in [title, back_buttton, astronaut_rocket, select_mission_label, planet_selection]:
+		control.show()
+	
+	for dictionary in back_buttton.pressed.get_connections():
+		back_buttton.pressed.disconnect(dictionary["callable"])
+	back_buttton.pressed.connect(func(): self.finished.emit("home", {}))
+	
+	var planets = planet_selection.get_children() as Array[TextureButton]
+	for button in planets:
+		for dictionary in button.pressed.get_connections():
+			button.pressed.disconnect(dictionary["callable"])
+		
+		button.pressed.connect(func():
+			data["mission"] = String(button.name)
+			self.finished.emit("mission", data)
 		)
 		
-	tween.tween_property(
-		self.main_control.main_menu_control,
-		"modulate",
-		Color(1, 1, 1, 0),
-		0.5
-	)
-	
-	self.main_control.lobby_control.modulate = Color(1, 1, 1, 0)
-	
-	tween.chain().tween_property(
-		self.main_control.lobby_control,
-		"modulate",
-		Color(1, 1, 1, 1),
-		0.5
-	)
-	
-	await tween.finished
-	self.main_control.main_menu_control.hide()
-	
-func exit() -> void:
-	var tween = get_tree().create_tween()
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.tween_property(
-		self.main_control.lobby_control,
-		"modulate",
-		Color(1, 1, 1, 0),
-		0.5
-	)
-	await tween.finished
-
-func _on_mars_pressed() -> void:
-	self.finished.emit("mission")
-
-func _on_jupiter_pressed() -> void:
-	self.finished.emit("mission")
-
-func _on_saturn_pressed() -> void:
-	self.finished.emit("mission")
-
-func _on_back_button_pressed() -> void:
-	self.finished.emit("home")
+	self.ui_control.fade_in([select_mission_label, planet_selection])
+	if previous_state == "home":
+		self.ui_control.fade_in([back_buttton, astronaut_rocket])
+		
+func exit(next_state: String):
+	var astronaut_rocket = self.ui_control.get_node("AstronautRocket") as Control
+	var back_buttton = self.ui_control.get_node("BackButton") as TextureButton
+	var select_mission_label = self.ui_control.get_node("SelectMissionLabel") as Label
+	var planet_selection = self.ui_control.get_node("PlanetSelection") as Control
+	if next_state == "home":
+		self.ui_control.fade_out([back_buttton, astronaut_rocket], 0.2)
+	await self.ui_control.fade_out([select_mission_label, planet_selection], 0.2)

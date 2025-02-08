@@ -7,10 +7,7 @@ class_name Planet
 		surface_gravity = new_surface_gravity
 		self.mass = (new_surface_gravity * self.radius * self.radius) / Simulation.G
 		
-@export var radius = 50.0:
-	set(new_radius):
-		radius = new_radius
-
+@export var radius = 50.0
 @export var initial_velocity: Vector2
 
 func _ready() -> void:

@@ -28,6 +28,9 @@ func _physics_process(_delta: float) -> void:
 			(trajectories[i] as Line2D).remove_point(0)
 	
 func _input(event: InputEvent) -> void:
+	if get_tree().paused:
+		return
+		
 	if event is InputEventKey:
 		if event.keycode == KEY_1 and event.pressed:
 			Engine.time_scale = 1.0
@@ -42,7 +45,7 @@ static func calculate_force(
 	pos_a: Vector2,
 	pos_b: Vector2,
 ) -> Vector2:
-	var distance_sqrd = pos_b.distance_squared_to(pos_a)
+	var distance_sqrd = max(pos_b.distance_squared_to(pos_a), 0.0000001)
 	var direction = (pos_b - pos_a).normalized()
 	return direction * ((Simulation.G * mass_b * mass_a) / distance_sqrd)
 

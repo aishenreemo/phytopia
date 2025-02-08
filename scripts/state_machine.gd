@@ -2,6 +2,7 @@ extends Node
 class_name StateMachine
 
 @export var initial_state: State
+@export var default_data: Dictionary
 var states: Dictionary = {}
 var current: State = null
 
@@ -14,7 +15,7 @@ func _ready():
 	
 	if self.initial_state:
 		self.current = self.initial_state
-		self.current.enter("")
+		self.current.enter("", default_data)
 
 func _process(delta: float):
 	if self.current:
@@ -24,7 +25,7 @@ func _physics_process(delta: float):
 	if self.current:
 		self.current.physics_update(delta)
 
-func on_finished(next_state_name: String):
+func on_finished(next_state_name: String, data: Dictionary):
 	var current_name = self.current.name.to_snake_case()
 	var next_state_name_snek = next_state_name.to_snake_case()
 	
@@ -38,8 +39,8 @@ func on_finished(next_state_name: String):
 		return
 	
 	if self.current:
-		await self.current.exit()
-		next_state.enter(current_name)
+		await self.current.exit(next_state_name_snek)
+		next_state.enter(current_name, data)
 	else:
 		next_state.enter("")
 	

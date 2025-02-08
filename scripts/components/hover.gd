@@ -19,7 +19,7 @@ func off_hover() -> void:
 	add_tween("scale",  default_scale, duration)
 	
 func add_tween(property: String, value, seconds: float) -> void:
-	var tween = get_tree().create_tween()
+	var tween = self.create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_SINE)

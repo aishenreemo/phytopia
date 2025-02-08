@@ -21,5 +21,5 @@ void fragment() {
 		alpha = r * (0.85 * sin(TIME * (r * 1.5) + 720.0 * r) + 0.95);
 	}
 
-	COLOR.a = alpha;
+	COLOR.a *= alpha;
 }
