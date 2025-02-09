@@ -12,35 +12,117 @@
 
 [node name="Main2D" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 process_mode = 3
 enabled = false
+zoom = Vector2(0.031, 0.031)
 limit_smoothed = true
 position_smoothing_enabled = true
 editor_draw_limits = true
 script = ExtResource("1_iulga")
-multiplier = 16
+multiplier = 512
+follow = NodePath("../Game/Planets/Mercury")
 
-[node name="Game" type="Node2D" parent="." groups=["simulation"]]
+[node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("camera") groups=["simulation"]]
 script = ExtResource("2_4dgcl")
+prediction_duration = 20.0
+prediction = true
+camera = NodePath("../Camera2D")
 
 [node name="Clock" type="Timer" parent="Game"]
 process_callback = 0
-wait_time = 0.5
+wait_time = 20.0
 autostart = true
+
+[node name="Trails" type="Node2D" parent="Game"]
 
 [node name="Trajectories" type="Node2D" parent="Game"]
 
 [node name="Planets" type="Node2D" parent="Game"]
 
-[node name="Planet" parent="Game/Planets" instance=ExtResource("3_77pxh")]
+[node name="Sun" parent="Game/Planets" instance=ExtResource("3_77pxh")]
+mass = 813706.0
+freeze = true
+surface_gravity = 274.0
+radius = 1000.0
+
+[node name="Mercury" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(5154, 0)
+mass = 109.88
+linear_velocity = Vector2(0, 230)
+surface_gravity = 3.7
+radius = 100.0
+initial_velocity = Vector2(0, 230)
+orbit_to = NodePath("../Sun")
+
+[node name="Venus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(12513, 0)
+mass = 1926.79
+linear_velocity = Vector2(0, 150)
+surface_gravity = 8.9
+radius = 270.0
+initial_velocity = Vector2(0, 150)
+orbit_to = NodePath("../Sun")
+
+[node name="Earth" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(21975, 0)
+mass = 1818.96
+linear_velocity = Vector2(0, 115)
+radius = 250.0
+initial_velocity = Vector2(0, 115)
+orbit_to = NodePath("../Sun")
+
+[node name="Mars" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(33945, 0)
+mass = 247.23
+linear_velocity = Vector2(0, 90)
+surface_gravity = 3.7
+radius = 150.0
+initial_velocity = Vector2(0, 90)
+orbit_to = NodePath("../Sun")
+
+[node name="Jupiter" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(56692, 0)
+mass = 18412.3
+linear_velocity = Vector2(0, 70)
+surface_gravity = 24.8
+radius = 500.0
+initial_velocity = Vector2(0, 70)
+orbit_to = NodePath("../Sun")
+
+[node name="Saturn" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(82741, 0)
+mass = 6254.25
+linear_velocity = Vector2(0, 57.5)
+surface_gravity = 10.4
+radius = 450.0
+initial_velocity = Vector2(0, 57.5)
+orbit_to = NodePath("../Sun")
+
+[node name="Uranus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(108490, 0)
+mass = 2729.0
+linear_velocity = Vector2(0, 52.5)
+surface_gravity = 8.7
+radius = 325.0
+initial_velocity = Vector2(0, 52.5)
+orbit_to = NodePath("../Sun")
+
+[node name="Neptune" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(134710, 0)
+mass = 3345.1
+linear_velocity = Vector2(0, 47.5)
+surface_gravity = 11.0
+radius = 320.0
+initial_velocity = Vector2(0, 47.5)
+orbit_to = NodePath("../Sun")
 
 [node name="Router" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 process_mode = 3
 process_priority = 1
 process_physics_priority = 1
 script = ExtResource("9_1876u")
-initial_state = NodePath("Home")
+initial_state = NodePath("Game")
 default_data = null
 
 [node name="Home" type="Node" parent="Router" node_paths=PackedStringArray("ui_control")]

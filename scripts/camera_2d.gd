@@ -7,7 +7,9 @@ extends Camera2D
 		self.limit_top = -9 * 40 * self.multiplier
 		self.limit_right = 16 * 40 * self.multiplier
 		self.limit_bottom = 9 * 40 * self.multiplier
-		
+
+@export var follow: Node2D
+
 var is_dragging = false
 var maximum_zoom: Vector2
 var minimum_zoom: Vector2
@@ -27,7 +29,7 @@ func _ready() -> void:
 	self.maximum_zoom = limit_rect / screen_size
 	self.minimum_zoom = screen_size / limit_rect
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var screen_size = get_viewport().size
 	var minimum_position = Vector2(
 		0.5 * screen_size.x * (1.0 / self.zoom.x) + self.limit_left,
@@ -37,6 +39,9 @@ func _process(_delta: float) -> void:
 		-0.5 * screen_size.x * (1.0 / self.zoom.x) + self.limit_right,
 		-0.5 * screen_size.y * (1.0 / self.zoom.y) + self.limit_bottom,
 	)
+	
+	if follow:
+		self.position = follow.position - Vector2(0, 250)
 	
 	self.position.x = clamp(self.position.x, minimum_position.x, maximum_position.x)
 	self.position.y = clamp(self.position.y, minimum_position.y, maximum_position.y)

@@ -1,15 +1,25 @@
 extends Node2D
 class_name Simulation
 
+@export var prediction_duration = 100.0
+@export var prediction = false
+@export var camera: Camera2D
 const G = 6.17 * pow(2.718, 4)
 
 func _ready() -> void:
 	var planets := get_tree().get_nodes_in_group("planet")
-	
+	var trail_scene : PackedScene = load("res://scenes/trail.tscn")
 	for i in planets.size():
-		var line = Line2D.new()
-		line.antialiased = true
-		$Trajectories.add_child(line)
+		if planets[i].freeze:
+			continue
+		var trajectory = Line2D.new()
+		var trail = trail_scene.instantiate() as Trail
+		trajectory.antialiased = true
+		trail.antialiased = true
+		trail.planet = planets[i]
+		trail.camera = self.camera
+		$Trajectories.add_child(trajectory)
+		$Trails.add_child(trail)
 	
 	_on_clock_timeout()
 
@@ -26,19 +36,26 @@ func _physics_process(_delta: float) -> void:
 			if point.distance_to(planets[i].position) >= planets[i].radius:
 				break
 			(trajectories[i] as Line2D).remove_point(0)
-	
+
 func _input(event: InputEvent) -> void:
 	if get_tree().paused:
 		return
-		
 	if event is InputEventKey:
-		if event.keycode == KEY_1 and event.pressed:
+		if !event.pressed:
+			return
+		if event.keycode == KEY_1:
 			Engine.time_scale = 1.0
-		elif  event.keycode == KEY_2 and event.pressed:
-			Engine.time_scale = 8.0
-		elif event.keycode == KEY_3 and event.pressed:
-			Engine.time_scale = 16.0
-	
+		elif event.keycode == KEY_EQUAL:
+			Engine.time_scale *= 2.0
+		elif event.keycode == KEY_MINUS:
+			Engine.time_scale /= 2.0
+		elif event.keycode == KEY_G:
+			self.prediction = !self.prediction
+			_on_clock_timeout()
+		
+		if Engine.time_scale > 2.0 - 0.1:
+			self.prediction = false
+
 static func calculate_force(
 	mass_a: float,
 	mass_b: float,
@@ -50,10 +67,12 @@ static func calculate_force(
 	return direction * ((Simulation.G * mass_b * mass_a) / distance_sqrd)
 
 func _on_clock_timeout() -> void:
+	if !self.prediction:
+		return
+		
 	var delta = 1.0 / Engine.physics_ticks_per_second
 	var planets = get_tree().get_nodes_in_group("planet")
 	var trajectories = $Trajectories.get_children()
-	var duration = 100.0
 	var current_duration = 0.0
 	var positions = []
 	var velocities = []
@@ -67,7 +86,7 @@ func _on_clock_timeout() -> void:
 		positions.push_back(planets[i].position)
 		velocities.push_back(planets[i].linear_velocity)
 
-	while current_duration < duration:
+	while current_duration < self.prediction_duration:
 		for i in planets.size():
 			var force = Vector2.ZERO
 			for j in planets.size():
@@ -79,6 +98,9 @@ func _on_clock_timeout() -> void:
 					positions[i],
 					positions[j],
 				)
+			
+			if planets[i].freeze:
+				continue
 			
 			velocities[i] += (force / planets[i].mass) * delta
 			positions[i] += velocities[i] * delta
