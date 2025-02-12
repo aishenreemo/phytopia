@@ -4,3 +4,4 @@
 
 [node name="Trail" type="Line2D"]
 script = ExtResource("1_s7bs6")
+point_spacing = 1000.0

@@ -41,7 +41,7 @@ func _physics_process(_delta: float) -> void:
 	)
 	
 	if follow:
-		self.position = follow.position - Vector2(0, 250)
+		self.position = follow.position
 	
 	self.position.x = clamp(self.position.x, minimum_position.x, maximum_position.x)
 	self.position.y = clamp(self.position.y, minimum_position.y, maximum_position.y)

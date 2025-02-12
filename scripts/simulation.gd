@@ -4,14 +4,12 @@ class_name Simulation
 @export var prediction_duration = 100.0
 @export var prediction = false
 @export var camera: Camera2D
-const G = 6.17 * pow(2.718, 4)
+const G = 100
 
 func _ready() -> void:
 	var planets := get_tree().get_nodes_in_group("planet")
 	var trail_scene : PackedScene = load("res://scenes/trail.tscn")
 	for i in planets.size():
-		if planets[i].freeze:
-			continue
 		var trajectory = Line2D.new()
 		var trail = trail_scene.instantiate() as Trail
 		trajectory.antialiased = true
@@ -76,10 +74,6 @@ func _on_clock_timeout() -> void:
 	var current_duration = 0.0
 	var positions = []
 	var velocities = []
-	
-	if trajectories.size() != planets.size():
-		push_error("Trajectory and planets size mismatch.")
-		return
 	
 	for i in planets.size():
 		trajectories[i].clear_points()

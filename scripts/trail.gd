@@ -10,7 +10,7 @@ var distance_accum: float = 0.0
 func _ready():
 	self.clear_points()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if self.planet == null:
 		return
 	
