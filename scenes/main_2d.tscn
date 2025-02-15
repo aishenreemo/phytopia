@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://tge2of72lajn"]
+[gd_scene load_steps=21 format=3 uid="uid://tge2of72lajn"]
 
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="1_iulga"]
 [ext_resource type="Script" path="res://scripts/simulation.gd" id="2_4dgcl"]
@@ -19,6 +19,14 @@
 [ext_resource type="Script" path="res://scripts/router/home.gd" id="10_dxws8"]
 [ext_resource type="Script" path="res://scripts/router/lobby.gd" id="11_g0oy0"]
 [ext_resource type="PackedScene" uid="uid://ckrpxxli32moi" path="res://scenes/game_control.tscn" id="11_o1cve"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kj6m8"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+initial_velocity_min = -10.0
+initial_velocity_max = -10.0
+gravity = Vector3(0, 0, 0)
 
 [node name="Main2D" type="Node2D"]
 
@@ -171,6 +179,14 @@ mass = 1.0
 custom_integrator = false
 angular_damp_mode = 0
 initial_planet = NodePath("../Planets/Earth")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Game"]
+z_index = -100
+position = Vector2(1376, 343)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_kj6m8")
+lifetime = 140.0
+preprocess = 300.0
 
 [node name="Router" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 process_mode = 3
