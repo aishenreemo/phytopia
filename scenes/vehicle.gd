@@ -4,6 +4,8 @@ class_name Vehicle
 @export var initial_planet: Planet
 @export var rotation_speed = 90.0 * 2.0
 
+var force_multiplier: float = 30.0
+
 func _ready() -> void:
 	self.linear_velocity = initial_planet.initial_velocity
 
@@ -19,7 +21,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if Input.is_action_pressed("thrust"):
 		var rotated = self.rotation - PI / 2.0
 		var direction = Vector2(cos(rotated), sin(rotated))
-		force += direction * 120.0
+		force += direction * self.force_multiplier
 	
 	for planet in planets:
 		force += Simulation.calculate_force(
@@ -30,3 +32,6 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		) * 10.0
 
 	state.linear_velocity += (force / self.mass) * state.step
+
+func _on_game_control_gear_value_changed(value: float) -> void:
+	self.force_multiplier = 30.0 * value

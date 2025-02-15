@@ -129,7 +129,7 @@ process_mode = 3
 process_priority = 1
 process_physics_priority = 1
 script = ExtResource("9_1876u")
-initial_state = NodePath("Home")
+initial_state = NodePath("Game")
 default_data = null
 
 [node name="Home" type="Node" parent="Router" node_paths=PackedStringArray("ui_control")]
@@ -161,3 +161,4 @@ visible = false
 visible = false
 
 [connection signal="timeout" from="Game/Clock" to="Game" method="_on_clock_timeout"]
+[connection signal="gear_value_changed" from="UserInterface/GameControl" to="Game/Vehicle" method="_on_game_control_gear_value_changed"]
