@@ -1,13 +1,21 @@
-[gd_scene load_steps=12 format=3 uid="uid://tge2of72lajn"]
+[gd_scene load_steps=20 format=3 uid="uid://tge2of72lajn"]
 
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="1_iulga"]
 [ext_resource type="Script" path="res://scripts/simulation.gd" id="2_4dgcl"]
 [ext_resource type="PackedScene" uid="uid://c2i3ycaqd1wk1" path="res://scenes/planet.tscn" id="3_77pxh"]
 [ext_resource type="PackedScene" uid="uid://dljsrgyen4y25" path="res://scenes/vehicle.tscn" id="4_3i4c4"]
+[ext_resource type="Texture2D" uid="uid://j1ofmu2fcxh7" path="res://assets/images/planets/mercury.svg" id="4_4owhv"]
+[ext_resource type="Texture2D" uid="uid://bumok1yfal6yg" path="res://assets/images/planets/neptune.svg" id="4_dtjij"]
+[ext_resource type="Texture2D" uid="uid://b18aei5xrskp0" path="res://assets/images/planets/venus.svg" id="5_cnaoo"]
+[ext_resource type="Texture2D" uid="uid://c12ocwknw2fb" path="res://assets/images/planets/earth2.svg" id="6_3ftto"]
+[ext_resource type="Texture2D" uid="uid://30bebjyjvgdt" path="res://assets/images/planets/mars2.svg" id="7_57qao"]
 [ext_resource type="Script" path="res://scripts/router/mission.gd" id="7_82i05"]
 [ext_resource type="Script" path="res://scripts/router/game.gd" id="8_v4xeu"]
+[ext_resource type="Texture2D" uid="uid://da0p7pbval3tu" path="res://assets/images/planets/jupiter2.svg" id="8_xtdlo"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="9_1876u"]
+[ext_resource type="Texture2D" uid="uid://b7wfdwra6p518" path="res://assets/images/planets/saturn2.svg" id="9_oqo0b"]
 [ext_resource type="PackedScene" uid="uid://dsprrkrsjlyw6" path="res://scenes/ui_control.tscn" id="9_yyfp1"]
+[ext_resource type="Texture2D" uid="uid://b2qqj5fawf11q" path="res://assets/images/planets/uranus.svg" id="10_0kv28"]
 [ext_resource type="Script" path="res://scripts/router/home.gd" id="10_dxws8"]
 [ext_resource type="Script" path="res://scripts/router/lobby.gd" id="11_g0oy0"]
 [ext_resource type="PackedScene" uid="uid://ckrpxxli32moi" path="res://scenes/game_control.tscn" id="11_o1cve"]
@@ -55,6 +63,11 @@ radius = 100.0
 initial_velocity = Vector2(0, 230)
 orbit_to = NodePath("../Sun")
 
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Mercury"]
+position = Vector2(0.500134, -2.86102e-06)
+scale = Vector2(0.160157, 0.160937)
+texture = ExtResource("4_4owhv")
+
 [node name="Venus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(12513, 0)
 mass = 6488.1
@@ -64,6 +77,11 @@ radius = 270.0
 initial_velocity = Vector2(0, 150)
 orbit_to = NodePath("../Sun")
 
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Venus"]
+position = Vector2(2.25, 1)
+scale = Vector2(0.442578, 0.442187)
+texture = ExtResource("5_cnaoo")
+
 [node name="Earth" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(21975, 0)
 mass = 6125.0
@@ -72,14 +90,24 @@ radius = 250.0
 initial_velocity = Vector2(0, 115)
 orbit_to = NodePath("../Sun")
 
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Earth"]
+position = Vector2(-1.99961, -1.50003)
+scale = Vector2(0.414063, 0.410156)
+texture = ExtResource("6_3ftto")
+
 [node name="Mars" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
-position = Vector2(33945, 0)
+position = Vector2(33949, 1)
 mass = 832.5
 linear_velocity = Vector2(0, 90)
 surface_gravity = 3.7
 radius = 150.0
 initial_velocity = Vector2(0, 90)
 orbit_to = NodePath("../Sun")
+
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Mars"]
+position = Vector2(-2.9991, -9.0301e-06)
+scale = Vector2(0.239062, 0.2375)
+texture = ExtResource("7_57qao")
 
 [node name="Jupiter" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(56692, 0)
@@ -90,6 +118,11 @@ radius = 500.0
 initial_velocity = Vector2(0, 70)
 orbit_to = NodePath("../Sun")
 
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Jupiter"]
+position = Vector2(-1.99857, 2.99998)
+scale = Vector2(0.798438, 0.832812)
+texture = ExtResource("8_xtdlo")
+
 [node name="Saturn" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(82741, 0)
 mass = 21060.0
@@ -98,6 +131,11 @@ surface_gravity = 10.4
 radius = 450.0
 initial_velocity = Vector2(0, 57.5)
 orbit_to = NodePath("../Sun")
+
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Saturn"]
+position = Vector2(-1.00047, 3)
+scale = Vector2(0.726562, 0.724219)
+texture = ExtResource("9_oqo0b")
 
 [node name="Uranus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(108490, 0)
@@ -108,6 +146,11 @@ radius = 325.0
 initial_velocity = Vector2(0, 52.5)
 orbit_to = NodePath("../Sun")
 
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Uranus"]
+position = Vector2(1.00237, -4.76837e-07)
+scale = Vector2(0.524804, 0.520117)
+texture = ExtResource("10_0kv28")
+
 [node name="Neptune" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(134710, 0)
 mass = 11264.0
@@ -116,6 +159,11 @@ surface_gravity = 11.0
 radius = 320.0
 initial_velocity = Vector2(0, 47.5)
 orbit_to = NodePath("../Sun")
+
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Neptune"]
+position = Vector2(-3.00137, -3)
+scale = Vector2(0.525388, 0.512305)
+texture = ExtResource("4_dtjij")
 
 [node name="Vehicle" parent="Game" node_paths=PackedStringArray("initial_planet") instance=ExtResource("4_3i4c4")]
 position = Vector2(21976, -279)

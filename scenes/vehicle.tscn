@@ -1,19 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://dljsrgyen4y25"]
+[gd_scene load_steps=4 format=3 uid="uid://dljsrgyen4y25"]
 
 [ext_resource type="Script" path="res://scenes/vehicle.gd" id="1_1m7kl"]
 [ext_resource type="Texture2D" uid="uid://dn8taxusuekmc" path="res://assets/images/space_rocket.svg" id="1_7xj51"]
+[ext_resource type="Texture2D" uid="uid://c0qhd2wsygspi" path="res://assets/images/fire.svg" id="2_0s133"]
 
-[node name="Vehicle" type="RigidBody2D"]
+[node name="Vehicle" type="RigidBody2D" node_paths=PackedStringArray("fire")]
 collision_mask = 2
 mass = 10.0
 custom_integrator = true
 linear_damp_mode = 1
 angular_damp_mode = 1
 script = ExtResource("1_1m7kl")
+fire = NodePath("Fire")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2(5, 5)
 polygon = PackedVector2Array(-0.0078125, -6.24219, -1.20587, -5.505, -2.10354, -4.16703, -2.7543, -1.94078, -2.58594, 0.109375, -3.35823, 0.633407, -3.92729, 1.32863, -4.27595, 2.64246, -4.1124, 3.73443, -3.68067, 5.02356, -3.17237, 5.87673, -2.89365, 6.0997, -2.61493, 5.96034, -2.45699, 5.28213, -1.80469, 3.8125, -1.64844, 4.19531, -1.33594, 4.30469, -1.30469, 4.72656, -1.10938, 4.875, 0, 4.875, 0.890625, 4.86719, 1.0625, 4.74219, 1.07812, 4.3125, 1.375, 4.20312, 1.55215, 3.921, 2.04112, 5.03243, 2.22814, 5.85925, 2.4375, 6.03906, 2.68093, 5.99706, 2.81873, 5.78051, 3.1534, 5.28835, 3.67586, 4.09797, 3.91397, 2.86618, 3.7625, 1.63799, 3.21795, 0.764212, 2.38281, 0.132812, 2.59319, -1.87449, 1.94394, -4.1753, 1.09308, -5.44913)
+
+[node name="Fire" type="Sprite2D" parent="."]
+position = Vector2(-0.185815, 35)
+rotation = 3.14159
+scale = Vector2(0.0176839, 0.0215795)
+texture = ExtResource("2_0s133")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.05, 0.05)

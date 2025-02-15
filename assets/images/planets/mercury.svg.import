@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qi8csml4djp1"
-path="res://.godot/imported/mars.svg-8b4f1be3c9d02159fabc524c77c9611f.ctex"
+uid="uid://j1ofmu2fcxh7"
+path="res://.godot/imported/mercury.svg-7f3bc907008aaf9daed0787213272015.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/mars.svg"
-dest_files=["res://.godot/imported/mars.svg-8b4f1be3c9d02159fabc524c77c9611f.ctex"]
+source_file="res://assets/images/planets/mercury.svg"
+dest_files=["res://.godot/imported/mercury.svg-7f3bc907008aaf9daed0787213272015.ctex"]
 
 [params]
 

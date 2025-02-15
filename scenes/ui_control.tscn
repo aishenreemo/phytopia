@@ -9,14 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://x503xdoodod0" path="res://assets/images/astronaut_1.png" id="7_bkwn4"]
 [ext_resource type="Script" path="res://scripts/components/wave.gd" id="8_f7shj"]
 [ext_resource type="FontFile" uid="uid://losyab27xhml" path="res://assets/fonts/AbrilFatface/AbrilFatface-Regular.ttf" id="9_5iv7d"]
-[ext_resource type="Texture2D" uid="uid://qi8csml4djp1" path="res://assets/images/mars.svg" id="10_uhsk0"]
+[ext_resource type="Texture2D" uid="uid://qi8csml4djp1" path="res://assets/images/planets/mars.svg" id="10_uhsk0"]
 [ext_resource type="Script" path="res://scripts/components/hover.gd" id="11_dnqte"]
-[ext_resource type="Texture2D" uid="uid://duejtyutfr7ou" path="res://assets/images/jupiter.svg" id="12_64rsd"]
-[ext_resource type="Texture2D" uid="uid://cawrargnetl76" path="res://assets/images/saturn.svg" id="13_sy3ec"]
+[ext_resource type="Texture2D" uid="uid://duejtyutfr7ou" path="res://assets/images/planets/jupiter.svg" id="12_64rsd"]
+[ext_resource type="Texture2D" uid="uid://cawrargnetl76" path="res://assets/images/planets/saturn.svg" id="13_sy3ec"]
 [ext_resource type="Texture2D" uid="uid://dn8taxusuekmc" path="res://assets/images/space_rocket.svg" id="14_h44ij"]
 [ext_resource type="Texture2D" uid="uid://cnui4brer1h2j" path="res://assets/images/astronaut_2.svg" id="15_kvpoe"]
 [ext_resource type="Texture2D" uid="uid://dagjr55epaqmn" path="res://assets/images/back.svg" id="16_u8r01"]
-[ext_resource type="Texture2D" uid="uid://c84pgkek4ckdj" path="res://assets/images/earth.svg" id="19_mbh0l"]
+[ext_resource type="Texture2D" uid="uid://c84pgkek4ckdj" path="res://assets/images/planets/earth.svg" id="19_mbh0l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sibj0"]
 shader = ExtResource("3_tne6n")
@@ -221,7 +221,7 @@ anchors_preset = -1
 anchor_left = 0.451562
 anchor_right = 0.654688
 anchor_bottom = 0.921986
-rotation = 0.0972455
+rotation = 0.169074
 pivot_offset = Vector2(173, 180)
 texture = ExtResource("7_bkwn4")
 expand_mode = 2
@@ -398,7 +398,7 @@ anchor_bottom = 0.432203
 offset_top = -62.0
 offset_right = 128.0
 offset_bottom = 66.0
-rotation = 0.0323946
+rotation = 0.0543922
 pivot_offset = Vector2(64, 64)
 texture_normal = ExtResource("10_uhsk0")
 ignore_texture_size = true
@@ -422,7 +422,7 @@ offset_left = -483.437
 offset_top = -545.788
 offset_right = -624.473
 offset_bottom = -594.247
-rotation = 0.0972455
+rotation = 0.169074
 pivot_offset = Vector2(91, 81)
 texture_normal = ExtResource("12_64rsd")
 ignore_texture_size = true
@@ -443,7 +443,7 @@ anchor_right = 1.45
 offset_left = -960.0
 offset_right = -747.0
 offset_bottom = 213.0
-rotation = 0.161504
+rotation = -0.0839128
 pivot_offset = Vector2(106, 106)
 texture_normal = ExtResource("13_sy3ec")
 ignore_texture_size = true
@@ -512,7 +512,7 @@ anchor_right = 0.300781
 anchor_bottom = 0.515278
 offset_top = 54.81
 offset_bottom = 54.8099
-rotation = 0.0972455
+rotation = 0.169074
 pivot_offset = Vector2(137, 135)
 texture = ExtResource("19_mbh0l")
 expand_mode = 1
