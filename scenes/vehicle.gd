@@ -8,7 +8,10 @@ class_name Vehicle
 var force_multiplier: float = 30.0
 
 func _ready() -> void:
-	self.linear_velocity = initial_planet.initial_velocity
+	await get_parent().ready
+	self.position = self.initial_planet.position
+	self.position.y -= self.initial_planet.radius
+	self.linear_velocity = self.initial_planet.linear_velocity
 	self.fire.hide()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:

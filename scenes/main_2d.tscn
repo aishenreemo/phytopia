@@ -33,7 +33,6 @@ gravity = Vector3(0, 0, 0)
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 process_mode = 3
 enabled = false
-zoom = Vector2(4, 4)
 limit_smoothed = true
 position_smoothing_enabled = true
 editor_draw_limits = true
@@ -44,13 +43,6 @@ follow = NodePath("../Game/Vehicle")
 [node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("camera") groups=["simulation"]]
 script = ExtResource("2_4dgcl")
 camera = NodePath("../Camera2D")
-
-[node name="Clock" type="Timer" parent="Game"]
-process_callback = 0
-wait_time = 5.0
-autostart = true
-
-[node name="Trails" type="Node2D" parent="Game"]
 
 [node name="Trajectories" type="Node2D" parent="Game"]
 
@@ -68,8 +60,7 @@ mass = 370.0
 linear_velocity = Vector2(0, 230)
 surface_gravity = 3.7
 radius = 100.0
-initial_velocity = Vector2(0, 230)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Mercury"]
 position = Vector2(0.500134, -2.86102e-06)
@@ -82,8 +73,7 @@ mass = 6488.1
 linear_velocity = Vector2(0, 150)
 surface_gravity = 8.9
 radius = 270.0
-initial_velocity = Vector2(0, 150)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Venus"]
 position = Vector2(2.25, 1)
@@ -95,8 +85,7 @@ position = Vector2(21975, 0)
 mass = 6125.0
 linear_velocity = Vector2(0, 115)
 radius = 250.0
-initial_velocity = Vector2(0, 115)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Earth"]
 position = Vector2(-1.99961, -1.50003)
@@ -109,8 +98,7 @@ mass = 832.5
 linear_velocity = Vector2(0, 90)
 surface_gravity = 3.7
 radius = 150.0
-initial_velocity = Vector2(0, 90)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Mars"]
 position = Vector2(-2.9991, -9.0301e-06)
@@ -123,8 +111,7 @@ mass = 62000.0
 linear_velocity = Vector2(0, 70)
 surface_gravity = 24.8
 radius = 500.0
-initial_velocity = Vector2(0, 70)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Jupiter"]
 position = Vector2(-1.99857, 2.99998)
@@ -137,13 +124,19 @@ mass = 21060.0
 linear_velocity = Vector2(0, 57.5)
 surface_gravity = 10.4
 radius = 450.0
-initial_velocity = Vector2(0, 57.5)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Saturn"]
 position = Vector2(-1.00047, 3)
 scale = Vector2(0.726562, 0.724219)
 texture = ExtResource("9_oqo0b")
+
+[node name="Titan" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(85490, 0)
+mass = 137.2
+surface_gravity = 1.372
+radius = 100.0
+orbit_to = [NodePath("../Saturn"), NodePath("../Sun")]
 
 [node name="Uranus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(108490, 0)
@@ -151,8 +144,7 @@ mass = 9189.38
 linear_velocity = Vector2(0, 52.5)
 surface_gravity = 8.7
 radius = 325.0
-initial_velocity = Vector2(0, 52.5)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Uranus"]
 position = Vector2(1.00237, -4.76837e-07)
@@ -165,8 +157,7 @@ mass = 11264.0
 linear_velocity = Vector2(0, 47.5)
 surface_gravity = 11.0
 radius = 320.0
-initial_velocity = Vector2(0, 47.5)
-orbit_to = NodePath("../Sun")
+orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Neptune"]
 position = Vector2(-3.00137, -3)
@@ -181,6 +172,7 @@ angular_damp_mode = 0
 initial_planet = NodePath("../Planets/Earth")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Game"]
+visible = false
 z_index = -100
 position = Vector2(1376, 343)
 amount = 1000
@@ -224,5 +216,4 @@ visible = false
 [node name="GameControl" parent="UserInterface" instance=ExtResource("11_o1cve")]
 visible = false
 
-[connection signal="timeout" from="Game/Clock" to="Game" method="_on_clock_timeout"]
 [connection signal="gear_value_changed" from="UserInterface/GameControl" to="Game/Vehicle" method="_on_game_control_gear_value_changed"]

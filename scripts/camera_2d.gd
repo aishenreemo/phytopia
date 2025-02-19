@@ -10,9 +10,11 @@ extends Camera2D
 
 @export var follow: Node2D
 
+var is_focusing = true
 var is_dragging = false
 var maximum_zoom: Vector2
 var minimum_zoom: Vector2
+var current_tween: Tween = null
 
 func _ready() -> void:
 	var screen_size = get_viewport().size as Vector2
@@ -40,9 +42,21 @@ func _physics_process(_delta: float) -> void:
 		-0.5 * screen_size.y * (1.0 / self.zoom.y) + self.limit_bottom,
 	)
 	
-	if follow:
+	if Input.is_action_just_pressed("lock"):
+		self.is_focusing = !self.is_focusing
+		
+	if self.follow and self.is_focusing or Input.is_action_pressed("focus"):
+		if self.current_tween:
+			self.current_tween.kill()
+			self.current_tween = null
+		
+		self.current_tween = self.create_tween()
+		self.current_tween.set_ease(Tween.EASE_IN_OUT)
+		self.current_tween.set_trans(Tween.TRANS_SINE)
 		self.position = follow.position
-	
+		var final_zoom = clamp(self.zoom, Vector2(1.0 / 16.0, 1.0 / 16.0), self.maximum_zoom)
+		self.current_tween.tween_property(self, "zoom", final_zoom, 0.1)
+		
 	self.position.x = clamp(self.position.x, minimum_position.x, maximum_position.x)
 	self.position.y = clamp(self.position.y, minimum_position.y, maximum_position.y)
 	

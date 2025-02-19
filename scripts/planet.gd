@@ -8,12 +8,10 @@ class_name Planet
 		self.mass = (new_surface_gravity * self.radius * self.radius) / Simulation.G
 		
 @export var radius = 50.0
-@export var initial_velocity: Vector2
-@export var orbit_to: Planet
+@export var orbit_to: Array[Planet]
 
 func _ready() -> void:
 	self.mass = (self.surface_gravity * self.radius * self.radius) / Simulation.G
-	self.linear_velocity = self.initial_velocity
 	$CollisionShape2D.shape = CircleShape2D.new()
 	$CollisionShape2D.shape.radius = self.radius
 	
@@ -24,8 +22,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 	var planets = get_tree().get_nodes_in_group("planet") as Array[Planet]
 	var force = Vector2.ZERO
 	
-	if self.orbit_to != null:
-		planets = [self.orbit_to]
+	if self.orbit_to.size() > 0:
+		planets = self.orbit_to
 	
 	for planet in planets:
 		if self == planet:

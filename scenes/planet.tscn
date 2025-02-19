@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/planet.gd" id="1_y5n7r"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_iwjui"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_kqcie"]
 radius = 50.0
 
 [node name="Planet" type="RigidBody2D" groups=["planet"]]
@@ -17,4 +17,4 @@ angular_damp_mode = 1
 script = ExtResource("1_y5n7r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_iwjui")
+shape = SubResource("CircleShape2D_kqcie")
