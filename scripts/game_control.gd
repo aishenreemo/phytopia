@@ -2,7 +2,6 @@ extends Control
 class_name GameControl
 
 @export var gear_slider: HSlider
-@export var steering_slider: HSlider
 
 signal gear_value_changed(value: float)
 

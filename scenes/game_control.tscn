@@ -1,11 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckrpxxli32moi"]
+[gd_scene load_steps=2 format=3 uid="uid://ckrpxxli32moi"]
 
 [ext_resource type="Script" path="res://scripts/game_control.gd" id="1_ky0og"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tai4i"]
-bg_color = Color(0.06, 0.06, 0.06, 0.243137)
-
-[node name="GameControl" type="Control" node_paths=PackedStringArray("gear_slider", "steering_slider")]
+[node name="GameControl" type="Control" node_paths=PackedStringArray("gear_slider")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +11,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ky0og")
 gear_slider = NodePath("MarginContainer/VBoxContainer/VBoxContainer/HSlider")
-steering_slider = NodePath("MarginContainer/VBoxContainer/VBoxContainer2/HSlider")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -33,24 +29,6 @@ layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "STEER"
-horizontal_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
-layout_mode = 2
-theme_override_styles/grabber_area = SubResource("StyleBoxFlat_tai4i")
-theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_tai4i")
-min_value = -1.0
-max_value = 1.0
-step = 0.001
-scrollable = false
-
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -63,7 +41,8 @@ horizontal_alignment = 1
 [node name="HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 max_value = 6.0
-value = 2.0
+value = 1.0
+editable = false
 scrollable = false
 
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/VBoxContainer/HSlider" to="." method="_on_gear_value_changed"]

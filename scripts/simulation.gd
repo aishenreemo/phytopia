@@ -22,6 +22,7 @@ func _ready() -> void:
 		line.antialiased = true
 		line.antialiased = true
 		line.camera = self.camera
+		line.modulate.a = 0.25
 		$Trajectories.add_child(line)
 
 		var other_planets = planets[i].orbit_to
@@ -81,19 +82,6 @@ func _ready() -> void:
 		
 func _physics_process(_delta: float) -> void:
 	pass
-
-func _input(event: InputEvent) -> void:
-	if get_tree().paused:
-		return
-	if event is InputEventKey:
-		if !event.pressed:
-			return
-		if event.keycode == KEY_1:
-			Engine.time_scale = 1.0
-		elif event.keycode == KEY_EQUAL:
-			Engine.time_scale *= 2.0
-		elif event.keycode == KEY_MINUS:
-			Engine.time_scale /= 2.0
 
 static func calculate_force(
 	mass_a: float,

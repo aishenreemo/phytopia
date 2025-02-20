@@ -1,11 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://tge2of72lajn"]
+[gd_scene load_steps=23 format=3 uid="uid://tge2of72lajn"]
 
+[ext_resource type="Texture2D" uid="uid://blptonyadgl71" path="res://assets/images/galaxy.jpg" id="1_e413w"]
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="1_iulga"]
 [ext_resource type="Script" path="res://scripts/simulation.gd" id="2_4dgcl"]
 [ext_resource type="PackedScene" uid="uid://c2i3ycaqd1wk1" path="res://scenes/planet.tscn" id="3_77pxh"]
 [ext_resource type="PackedScene" uid="uid://dljsrgyen4y25" path="res://scenes/vehicle.tscn" id="4_3i4c4"]
 [ext_resource type="Texture2D" uid="uid://j1ofmu2fcxh7" path="res://assets/images/planets/mercury.svg" id="4_4owhv"]
 [ext_resource type="Texture2D" uid="uid://bumok1yfal6yg" path="res://assets/images/planets/neptune.svg" id="4_dtjij"]
+[ext_resource type="Texture2D" uid="uid://b8himp546tcbv" path="res://assets/images/planets/sun.svg" id="5_3hq6x"]
+[ext_resource type="Script" path="res://scripts/components/zoom.gd" id="5_7lark"]
 [ext_resource type="Texture2D" uid="uid://b18aei5xrskp0" path="res://assets/images/planets/venus.svg" id="5_cnaoo"]
 [ext_resource type="Texture2D" uid="uid://c12ocwknw2fb" path="res://assets/images/planets/earth2.svg" id="6_3ftto"]
 [ext_resource type="Texture2D" uid="uid://30bebjyjvgdt" path="res://assets/images/planets/mars2.svg" id="7_57qao"]
@@ -20,21 +23,30 @@
 [ext_resource type="Script" path="res://scripts/router/lobby.gd" id="11_g0oy0"]
 [ext_resource type="PackedScene" uid="uid://ckrpxxli32moi" path="res://scenes/game_control.tscn" id="11_o1cve"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kj6m8"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(1, 360, 1)
-initial_velocity_min = -10.0
-initial_velocity_max = -10.0
-gravity = Vector3(0, 0, 0)
-
 [node name="Main2D" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+visible = false
+modulate = Color(1, 1, 1, 0.243137)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_e413w")
+expand_mode = 1
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow") groups=["camera"]]
 process_mode = 3
+ignore_rotation = false
 enabled = false
+process_callback = 0
 limit_smoothed = true
 position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 editor_draw_limits = true
 script = ExtResource("1_iulga")
 multiplier = 512
@@ -54,6 +66,20 @@ freeze = true
 surface_gravity = 274.0
 radius = 1000.0
 
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Sun"]
+scale = Vector2(2.31406, 2.27191)
+texture = ExtResource("5_3hq6x")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Sun"]
+scale = Vector2(2.31406, 2.27191)
+texture = ExtResource("5_3hq6x")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Sun" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.016
+multiplier = 0.028
+
 [node name="Mercury" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(5154, 0)
 mass = 370.0
@@ -66,6 +92,17 @@ orbit_to = [NodePath("../Sun")]
 position = Vector2(0.500134, -2.86102e-06)
 scale = Vector2(0.160157, 0.160937)
 texture = ExtResource("4_4owhv")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Mercury"]
+position = Vector2(0.500134, -2.86102e-06)
+scale = Vector2(0.160157, 0.160937)
+texture = ExtResource("4_4owhv")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Mercury" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.125
+multiplier = 0.008
 
 [node name="Venus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(12513, 0)
@@ -80,7 +117,18 @@ position = Vector2(2.25, 1)
 scale = Vector2(0.442578, 0.442187)
 texture = ExtResource("5_cnaoo")
 
-[node name="Earth" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Venus"]
+position = Vector2(2.25, 1)
+scale = Vector2(0.442578, 0.442187)
+texture = ExtResource("5_cnaoo")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Venus" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.063
+multiplier = 0.014
+
+[node name="Earth" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") groups=["source"] instance=ExtResource("3_77pxh")]
 position = Vector2(21975, 0)
 mass = 6125.0
 linear_velocity = Vector2(0, 115)
@@ -91,6 +139,17 @@ orbit_to = [NodePath("../Sun")]
 position = Vector2(-1.99961, -1.50003)
 scale = Vector2(0.414063, 0.410156)
 texture = ExtResource("6_3ftto")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Earth"]
+position = Vector2(-1.99961, -1.50003)
+scale = Vector2(0.414063, 0.410156)
+texture = ExtResource("6_3ftto")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Earth" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.031
+multiplier = 0.016
 
 [node name="Mars" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(33949, 1)
@@ -105,6 +164,17 @@ position = Vector2(-2.9991, -9.0301e-06)
 scale = Vector2(0.239062, 0.2375)
 texture = ExtResource("7_57qao")
 
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Mars"]
+position = Vector2(-2.9991, -9.0301e-06)
+scale = Vector2(0.239062, 0.2375)
+texture = ExtResource("7_57qao")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Mars" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.031
+multiplier = 0.016
+
 [node name="Jupiter" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(56692, 0)
 mass = 62000.0
@@ -117,6 +187,24 @@ orbit_to = [NodePath("../Sun")]
 position = Vector2(-1.99857, 2.99998)
 scale = Vector2(0.798438, 0.832812)
 texture = ExtResource("8_xtdlo")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Jupiter"]
+position = Vector2(-1.99857, 2.99998)
+scale = Vector2(0.798438, 0.832812)
+texture = ExtResource("8_xtdlo")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Jupiter" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.016
+multiplier = 0.024
+
+[node name="Titan" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(85490, 0)
+mass = 137.2
+surface_gravity = 1.372
+radius = 100.0
+orbit_to = [NodePath("../Saturn"), NodePath("../Sun")]
 
 [node name="Saturn" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(82741, 0)
@@ -131,12 +219,16 @@ position = Vector2(-1.00047, 3)
 scale = Vector2(0.726562, 0.724219)
 texture = ExtResource("9_oqo0b")
 
-[node name="Titan" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
-position = Vector2(85490, 0)
-mass = 137.2
-surface_gravity = 1.372
-radius = 100.0
-orbit_to = [NodePath("../Saturn"), NodePath("../Sun")]
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Saturn"]
+position = Vector2(-1.00047, 3)
+scale = Vector2(0.726562, 0.724219)
+texture = ExtResource("9_oqo0b")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Saturn" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.016
+multiplier = 0.024
 
 [node name="Uranus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(108490, 0)
@@ -151,6 +243,16 @@ position = Vector2(1.00237, -4.76837e-07)
 scale = Vector2(0.524804, 0.520117)
 texture = ExtResource("10_0kv28")
 
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Uranus"]
+position = Vector2(1.00237, -4.76837e-07)
+scale = Vector2(0.524804, 0.520117)
+texture = ExtResource("10_0kv28")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Uranus" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+multiplier = 0.02
+
 [node name="Neptune" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(134710, 0)
 mass = 11264.0
@@ -160,25 +262,25 @@ radius = 320.0
 orbit_to = [NodePath("../Sun")]
 
 [node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Neptune"]
-position = Vector2(-3.00137, -3)
 scale = Vector2(0.525388, 0.512305)
 texture = ExtResource("4_dtjij")
 
-[node name="Vehicle" parent="Game" node_paths=PackedStringArray("initial_planet") instance=ExtResource("4_3i4c4")]
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Neptune"]
+scale = Vector2(0.525388, 0.512305)
+texture = ExtResource("4_dtjij")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Neptune" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+multiplier = 0.02
+
+[node name="Vehicle" parent="Game" node_paths=PackedStringArray("initial_planet", "camera") instance=ExtResource("4_3i4c4")]
 position = Vector2(21976, -279)
 mass = 1.0
 custom_integrator = false
 angular_damp_mode = 0
 initial_planet = NodePath("../Planets/Earth")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Game"]
-visible = false
-z_index = -100
-position = Vector2(1376, 343)
-amount = 1000
-process_material = SubResource("ParticleProcessMaterial_kj6m8")
-lifetime = 140.0
-preprocess = 300.0
+camera = NodePath("../../Camera2D")
 
 [node name="Router" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 process_mode = 3
@@ -200,8 +302,9 @@ ui_control = NodePath("../../UserInterface/UIControl")
 script = ExtResource("7_82i05")
 ui_control = NodePath("../../UserInterface/UIControl")
 
-[node name="Game" type="Node" parent="Router" node_paths=PackedStringArray("ui_control", "game_control", "simulation", "camera_2d")]
+[node name="Game" type="Node" parent="Router" node_paths=PackedStringArray("galaxy_texture", "ui_control", "game_control", "simulation", "camera_2d")]
 script = ExtResource("8_v4xeu")
+galaxy_texture = NodePath("../../CanvasLayer/TextureRect")
 ui_control = NodePath("../../UserInterface/UIControl")
 game_control = NodePath("../../UserInterface/GameControl")
 simulation = NodePath("../../Game")
