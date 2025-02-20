@@ -10,9 +10,9 @@ var force_multiplier: float = 30.0
 var current_tween: Tween = null
 
 func _ready() -> void:
-	await get_parent().ready
 	self.position = self.initial_planet.position
-	self.position.y -= self.initial_planet.radius
+	self.position.y -= self.initial_planet.radius - 20
+	self.rotation = 0
 	self.linear_velocity = self.initial_planet.linear_velocity
 	self.fire.hide()
 	$Placeholder/FireScalable.hide()

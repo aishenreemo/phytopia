@@ -221,7 +221,7 @@ anchors_preset = -1
 anchor_left = 0.451562
 anchor_right = 0.654688
 anchor_bottom = 0.921986
-rotation = 0.174291
+rotation = 0.0585844
 pivot_offset = Vector2(173, 180)
 texture = ExtResource("7_bkwn4")
 expand_mode = 2
@@ -398,7 +398,7 @@ anchor_bottom = 0.432203
 offset_top = -62.0
 offset_right = 128.0
 offset_bottom = 66.0
-rotation = 0.168517
+rotation = 0.172807
 pivot_offset = Vector2(64, 64)
 texture_normal = ExtResource("10_uhsk0")
 ignore_texture_size = true
@@ -412,7 +412,7 @@ script = ExtResource("11_dnqte")
 script = ExtResource("8_f7shj")
 wave_speed = 0.5
 
-[node name="Jupiter" type="TextureButton" parent="PlanetSelection"]
+[node name="Europa" type="TextureButton" parent="PlanetSelection"]
 layout_mode = 2
 anchor_left = 0.808935
 anchor_top = 2.44825
@@ -422,20 +422,20 @@ offset_left = -483.437
 offset_top = -545.788
 offset_right = -624.473
 offset_bottom = -594.247
-rotation = 0.174291
+rotation = 0.0585844
 pivot_offset = Vector2(91, 81)
 texture_normal = ExtResource("12_64rsd")
 ignore_texture_size = true
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
-[node name="Hover" type="Node" parent="PlanetSelection/Jupiter"]
+[node name="Hover" type="Node" parent="PlanetSelection/Europa"]
 script = ExtResource("11_dnqte")
 
-[node name="Wave" type="Node" parent="PlanetSelection/Jupiter"]
+[node name="Wave" type="Node" parent="PlanetSelection/Europa"]
 script = ExtResource("8_f7shj")
 
-[node name="Saturn" type="TextureButton" parent="PlanetSelection"]
+[node name="Titan" type="TextureButton" parent="PlanetSelection"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.45
@@ -443,17 +443,17 @@ anchor_right = 1.45
 offset_left = -960.0
 offset_right = -747.0
 offset_bottom = 213.0
-rotation = -0.0183496
+rotation = 0.110371
 pivot_offset = Vector2(106, 106)
 texture_normal = ExtResource("13_sy3ec")
 ignore_texture_size = true
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
-[node name="Hover" type="Node" parent="PlanetSelection/Saturn"]
+[node name="Hover" type="Node" parent="PlanetSelection/Titan"]
 script = ExtResource("11_dnqte")
 
-[node name="Wave" type="Node" parent="PlanetSelection/Saturn"]
+[node name="Wave" type="Node" parent="PlanetSelection/Titan"]
 script = ExtResource("8_f7shj")
 wave_speed = 0.2
 
@@ -512,7 +512,7 @@ anchor_right = 0.300781
 anchor_bottom = 0.515278
 offset_top = 54.81
 offset_bottom = 54.8099
-rotation = 0.174291
+rotation = 0.0585844
 pivot_offset = Vector2(137, 135)
 texture = ExtResource("19_mbh0l")
 expand_mode = 1

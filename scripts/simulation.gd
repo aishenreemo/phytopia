@@ -4,10 +4,20 @@ class_name Simulation
 @export var camera: Camera2D
 const G = 100
 
+var initial_positions: Array[Vector2] = []
+
 func _ready() -> void:
 	var planets := get_tree().get_nodes_in_group("planet")
-	var line_scene: PackedScene = load("res://scenes/line.tscn")
 	
+	for i in self.initial_positions.size():
+		planets[i].position = self.initial_positions[i]
+		planets[i].linear_velocity = Vector2.ZERO
+	
+	self.initial_positions = []
+	for i in planets.size():
+		self.initial_positions.push_back(planets[i].position)
+	
+	var line_scene: PackedScene = load("res://scenes/line.tscn")
 	for i in planets.size():
 		var other_planets = planets[i].orbit_to
 		if other_planets.size() != 2:
@@ -19,7 +29,6 @@ func _ready() -> void:
 
 	for i in planets.size():
 		var line = line_scene.instantiate() as Line
-		line.antialiased = true
 		line.antialiased = true
 		line.camera = self.camera
 		line.modulate.a = 0.25
@@ -78,8 +87,14 @@ func _ready() -> void:
 
 		var moon_velocity_relative_direction = (moon.position - planet.position).normalized().rotated(PI / 2)
 		var moon_velocity_relative = moon_velocity_relative_direction * v_m
-		moon.linear_velocity = planet.linear_velocity + moon_velocity_relative
-		
+		moon.linear_velocity = planet.linear_velocity - moon_velocity_relative
+	
+	var vehicle = $Vehicle
+	self.remove_child(vehicle)
+	await get_tree().process_frame
+	vehicle.request_ready()
+	self.add_child(vehicle)
+	
 func _physics_process(_delta: float) -> void:
 	pass
 

@@ -41,5 +41,10 @@ func exit(next_state: String):
 	var earth = self.ui_control.get_node("Earth") as TextureRect
 	var dialogue_panel = self.ui_control.get_node("DialoguePanel") as Panel
 	var start_mission_button = self.ui_control.get_node("StartMissionButton") as Button
-	if next_state == "lobby":
+	if next_state != "home":
 		self.ui_control.fade_out([earth, dialogue_panel, start_mission_button])
+	var back_buttton = self.ui_control.get_node("BackButton") as TextureButton
+	var astronaut_rocket = self.ui_control.get_node("AstronautRocket") as Control
+
+	if next_state == "game":
+		self.ui_control.fade_out([back_buttton, astronaut_rocket])

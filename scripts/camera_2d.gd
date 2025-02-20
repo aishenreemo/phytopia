@@ -103,7 +103,6 @@ func _input(event: InputEvent) -> void:
 	if !is_zoomed:
 		return
 	
-	Engine.time_scale = 1.0
 	var new_position = get_global_mouse_position()
 	if self.zoom * 1.00001 < self.maximum_zoom:
 		self.global_position += old_position - new_position

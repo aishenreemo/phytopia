@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://tge2of72lajn"]
+[gd_scene load_steps=26 format=3 uid="uid://tge2of72lajn"]
 
 [ext_resource type="Texture2D" uid="uid://blptonyadgl71" path="res://assets/images/galaxy.jpg" id="1_e413w"]
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="1_iulga"]
@@ -19,9 +19,12 @@
 [ext_resource type="Texture2D" uid="uid://b7wfdwra6p518" path="res://assets/images/planets/saturn2.svg" id="9_oqo0b"]
 [ext_resource type="PackedScene" uid="uid://dsprrkrsjlyw6" path="res://scenes/ui_control.tscn" id="9_yyfp1"]
 [ext_resource type="Texture2D" uid="uid://b2qqj5fawf11q" path="res://assets/images/planets/uranus.svg" id="10_0kv28"]
+[ext_resource type="Texture2D" uid="uid://by0sl3ep4o4xx" path="res://assets/images/planets/moon.svg" id="10_4b0w6"]
 [ext_resource type="Script" path="res://scripts/router/home.gd" id="10_dxws8"]
+[ext_resource type="Texture2D" uid="uid://bcsjqm45prmrw" path="res://assets/images/planets/europa.svg" id="11_7jbma"]
 [ext_resource type="Script" path="res://scripts/router/lobby.gd" id="11_g0oy0"]
 [ext_resource type="PackedScene" uid="uid://ckrpxxli32moi" path="res://scenes/game_control.tscn" id="11_o1cve"]
+[ext_resource type="Texture2D" uid="uid://doc1cn2malxbl" path="res://assets/images/planets/titan.svg" id="12_7svse"]
 
 [node name="Main2D" type="Node2D"]
 
@@ -55,6 +58,10 @@ follow = NodePath("../Game/Vehicle")
 [node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("camera") groups=["simulation"]]
 script = ExtResource("2_4dgcl")
 camera = NodePath("../Camera2D")
+
+[node name="WinTimer" type="Timer" parent="Game"]
+wait_time = 3.0
+one_shot = true
 
 [node name="Trajectories" type="Node2D" parent="Game"]
 
@@ -141,6 +148,7 @@ scale = Vector2(0.414063, 0.410156)
 texture = ExtResource("6_3ftto")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Earth"]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(-1.99961, -1.50003)
 scale = Vector2(0.414063, 0.410156)
 texture = ExtResource("6_3ftto")
@@ -150,6 +158,29 @@ script = ExtResource("5_7lark")
 sprite = NodePath("../Sprite2D2")
 threshold = 0.031
 multiplier = 0.016
+
+[node name="Moon" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(23616, 0)
+mass = 262.0
+surface_gravity = 2.62
+radius = 100.0
+orbit_to = [NodePath("../Earth"), NodePath("../Sun")]
+
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Moon"]
+position = Vector2(-0.00195312, 7.62939e-06)
+scale = Vector2(0.160052, 0.166942)
+texture = ExtResource("10_4b0w6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Moon"]
+position = Vector2(-0.00195312, 7.62939e-06)
+scale = Vector2(0.160052, 0.166942)
+texture = ExtResource("10_4b0w6")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Moon" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.125
+multiplier = 0.008
 
 [node name="Mars" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(33949, 1)
@@ -199,12 +230,28 @@ sprite = NodePath("../Sprite2D2")
 threshold = 0.016
 multiplier = 0.024
 
-[node name="Titan" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
-position = Vector2(85490, 0)
-mass = 137.2
-surface_gravity = 1.372
+[node name="Europa" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(60512, 0)
+mass = 231.5
+surface_gravity = 2.315
 radius = 100.0
-orbit_to = [NodePath("../Saturn"), NodePath("../Sun")]
+orbit_to = [NodePath("../Sun"), NodePath("../Jupiter")]
+
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Europa"]
+position = Vector2(-0.00195312, 7.62939e-06)
+scale = Vector2(0.157365, 0.16414)
+texture = ExtResource("11_7jbma")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Europa"]
+position = Vector2(-0.00195312, 7.62939e-06)
+scale = Vector2(0.157365, 0.16414)
+texture = ExtResource("11_7jbma")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Europa" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.125
+multiplier = 0.008
 
 [node name="Saturn" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(82741, 0)
@@ -229,6 +276,29 @@ script = ExtResource("5_7lark")
 sprite = NodePath("../Sprite2D2")
 threshold = 0.016
 multiplier = 0.024
+
+[node name="Titan" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
+position = Vector2(85490, 0)
+mass = 237.2
+surface_gravity = 2.372
+radius = 100.0
+orbit_to = [NodePath("../Saturn"), NodePath("../Sun")]
+
+[node name="Sprite2D" type="Sprite2D" parent="Game/Planets/Titan"]
+position = Vector2(-0.00195312, 7.62939e-06)
+scale = Vector2(0.157365, 0.16414)
+texture = ExtResource("12_7svse")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Game/Planets/Titan"]
+position = Vector2(-0.00195312, 7.62939e-06)
+scale = Vector2(0.157365, 0.16414)
+texture = ExtResource("12_7svse")
+
+[node name="Zoom" type="Node2D" parent="Game/Planets/Titan" node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_7lark")
+sprite = NodePath("../Sprite2D2")
+threshold = 0.125
+multiplier = 0.008
 
 [node name="Uranus" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(108490, 0)
@@ -288,7 +358,10 @@ process_priority = 1
 process_physics_priority = 1
 script = ExtResource("9_1876u")
 initial_state = NodePath("Game")
-default_data = null
+default_data = {
+"mission": "Mars",
+"name": "Sigma boy"
+}
 
 [node name="Home" type="Node" parent="Router" node_paths=PackedStringArray("ui_control")]
 script = ExtResource("10_dxws8")
@@ -312,6 +385,7 @@ camera_2d = NodePath("../../Camera2D")
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
 process_mode = 3
+layer = 2
 
 [node name="UIControl" parent="UserInterface" instance=ExtResource("9_yyfp1")]
 visible = false
@@ -319,4 +393,5 @@ visible = false
 [node name="GameControl" parent="UserInterface" instance=ExtResource("11_o1cve")]
 visible = false
 
+[connection signal="timeout" from="Game/WinTimer" to="Router/Game" method="_on_win_timer_timeout"]
 [connection signal="gear_value_changed" from="UserInterface/GameControl" to="Game/Vehicle" method="_on_game_control_gear_value_changed"]
