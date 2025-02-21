@@ -2,6 +2,7 @@ extends Node2D
 class_name Simulation
 
 @export var camera: Camera2D
+@export var database: Database
 const G = 100
 
 var initial_positions: Array[Vector2] = []

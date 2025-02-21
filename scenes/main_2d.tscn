@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://tge2of72lajn"]
+[gd_scene load_steps=28 format=3 uid="uid://tge2of72lajn"]
 
 [ext_resource type="Texture2D" uid="uid://blptonyadgl71" path="res://assets/images/galaxy.jpg" id="1_e413w"]
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="1_iulga"]
@@ -25,6 +25,8 @@
 [ext_resource type="Script" path="res://scripts/router/lobby.gd" id="11_g0oy0"]
 [ext_resource type="PackedScene" uid="uid://ckrpxxli32moi" path="res://scenes/game_control.tscn" id="11_o1cve"]
 [ext_resource type="Texture2D" uid="uid://doc1cn2malxbl" path="res://assets/images/planets/titan.svg" id="12_7svse"]
+[ext_resource type="Script" path="res://scripts/router/leaderboard.gd" id="24_150wo"]
+[ext_resource type="Script" path="res://scripts/database.gd" id="26_lotpi"]
 
 [node name="Main2D" type="Node2D"]
 
@@ -55,9 +57,10 @@ script = ExtResource("1_iulga")
 multiplier = 512
 follow = NodePath("../Game/Vehicle")
 
-[node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("camera") groups=["simulation"]]
+[node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("camera", "database") groups=["simulation"]]
 script = ExtResource("2_4dgcl")
 camera = NodePath("../Camera2D")
+database = NodePath("../Database")
 
 [node name="WinTimer" type="Timer" parent="Game"]
 wait_time = 3.0
@@ -357,10 +360,11 @@ process_mode = 3
 process_priority = 1
 process_physics_priority = 1
 script = ExtResource("9_1876u")
-initial_state = NodePath("Game")
+initial_state = NodePath("Home")
 default_data = {
+"duration": 60,
 "mission": "Mars",
-"name": "Sigma boy"
+"name": "Dummy"
 }
 
 [node name="Home" type="Node" parent="Router" node_paths=PackedStringArray("ui_control")]
@@ -383,6 +387,11 @@ game_control = NodePath("../../UserInterface/GameControl")
 simulation = NodePath("../../Game")
 camera_2d = NodePath("../../Camera2D")
 
+[node name="Leaderboard" type="Node" parent="Router" node_paths=PackedStringArray("ui_control", "database")]
+script = ExtResource("24_150wo")
+ui_control = NodePath("../../UserInterface/UIControl")
+database = NodePath("../../Database")
+
 [node name="UserInterface" type="CanvasLayer" parent="."]
 process_mode = 3
 layer = 2
@@ -392,6 +401,9 @@ visible = false
 
 [node name="GameControl" parent="UserInterface" instance=ExtResource("11_o1cve")]
 visible = false
+
+[node name="Database" type="Node" parent="."]
+script = ExtResource("26_lotpi")
 
 [connection signal="timeout" from="Game/WinTimer" to="Router/Game" method="_on_win_timer_timeout"]
 [connection signal="gear_value_changed" from="UserInterface/GameControl" to="Game/Vehicle" method="_on_game_control_gear_value_changed"]

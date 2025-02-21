@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://dsprrkrsjlyw6"]
+[gd_scene load_steps=39 format=3 uid="uid://dsprrkrsjlyw6"]
 
 [ext_resource type="Script" path="res://scripts/ui_control.gd" id="1_3edqe"]
 [ext_resource type="Texture2D" uid="uid://drv3bniy05v8" path="res://assets/images/background.png" id="2_4srva"]
@@ -43,7 +43,7 @@ spacing_glyph = 24
 
 [sub_resource type="LabelSettings" id="LabelSettings_gcktk"]
 font = SubResource("FontVariation_hg16r")
-font_size = 144
+font_size = 128
 shadow_size = 24
 shadow_color = Color(0.497474, 0.497474, 0.497474, 1)
 shadow_offset = Vector2(8, 8)
@@ -138,6 +138,13 @@ Button/styles/hover = SubResource("StyleBoxFlat_a5t2n")
 Button/styles/normal = SubResource("StyleBoxFlat_18v5s")
 Button/styles/pressed = SubResource("StyleBoxFlat_naib1")
 
+[sub_resource type="LabelSettings" id="LabelSettings_sik2r"]
+font = SubResource("FontVariation_hg16r")
+font_size = 64
+shadow_size = 24
+shadow_color = Color(0.497474, 0.497474, 0.497474, 1)
+shadow_offset = Vector2(8, 8)
+
 [node name="UIControl" type="Control"]
 layout_direction = 2
 layout_mode = 3
@@ -147,6 +154,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3edqe")
+metadata/_edit_use_anchors_ = true
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -221,7 +229,7 @@ anchors_preset = -1
 anchor_left = 0.451562
 anchor_right = 0.654688
 anchor_bottom = 0.921986
-rotation = 0.0585844
+rotation = 0.167624
 pivot_offset = Vector2(173, 180)
 texture = ExtResource("7_bkwn4")
 expand_mode = 2
@@ -382,9 +390,10 @@ metadata/_edit_use_anchors_ = true
 visible = false
 layout_mode = 2
 anchors_preset = 0
-offset_top = 241.0
+offset_top = 240.0
 offset_right = 1280.0
-offset_bottom = 477.0
+offset_bottom = 480.0
+pivot_offset = Vector2(640, 120)
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
@@ -398,7 +407,7 @@ anchor_bottom = 0.432203
 offset_top = -62.0
 offset_right = 128.0
 offset_bottom = 66.0
-rotation = 0.172807
+rotation = 0.0276717
 pivot_offset = Vector2(64, 64)
 texture_normal = ExtResource("10_uhsk0")
 ignore_texture_size = true
@@ -422,7 +431,7 @@ offset_left = -483.437
 offset_top = -545.788
 offset_right = -624.473
 offset_bottom = -594.247
-rotation = 0.0585844
+rotation = 0.167624
 pivot_offset = Vector2(91, 81)
 texture_normal = ExtResource("12_64rsd")
 ignore_texture_size = true
@@ -443,7 +452,7 @@ anchor_right = 1.45
 offset_left = -960.0
 offset_right = -747.0
 offset_bottom = 213.0
-rotation = 0.110371
+rotation = -0.0933933
 pivot_offset = Vector2(106, 106)
 texture_normal = ExtResource("13_sy3ec")
 ignore_texture_size = true
@@ -512,7 +521,7 @@ anchor_right = 0.300781
 anchor_bottom = 0.515278
 offset_top = 54.81
 offset_bottom = 54.8099
-rotation = 0.0585844
+rotation = 0.167624
 pivot_offset = Vector2(137, 135)
 texture = ExtResource("19_mbh0l")
 expand_mode = 1
@@ -533,3 +542,125 @@ text = "START MISSION!"
 
 [node name="Hover" type="Node" parent="StartMissionButton"]
 script = ExtResource("11_dnqte")
+
+[node name="LeaderboardLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.155556
+grow_horizontal = 2
+size_flags_vertical = 1
+text = "LEADERBOARD"
+label_settings = SubResource("LabelSettings_sik2r")
+horizontal_alignment = 1
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Leaderboard" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.201562
+anchor_top = 0.201389
+anchor_right = 0.798437
+anchor_bottom = 0.798611
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Leaderboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" type="HBoxContainer" parent="Leaderboard/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="ColorRect" type="ColorRect" parent="Leaderboard/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.3
+color = Color(0.923889, 0.338469, 0.251789, 1)
+
+[node name="Label" type="Label" parent="Leaderboard/VBoxContainer/Header/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = " Name"
+
+[node name="ColorRect2" type="ColorRect" parent="Leaderboard/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.923889, 0.338469, 0.251789, 1)
+
+[node name="Label" type="Label" parent="Leaderboard/VBoxContainer/Header/ColorRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = " Duration
+"
+
+[node name="Score" type="HBoxContainer" parent="Leaderboard/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="NameRect" type="ColorRect" parent="Leaderboard/VBoxContainer/Score"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.3
+color = Color(0.2484, 0.326753, 0.92, 1)
+
+[node name="Name" type="Label" parent="Leaderboard/VBoxContainer/Score/NameRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = " You
+"
+
+[node name="DurationRect" type="ColorRect" parent="Leaderboard/VBoxContainer/Score"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.2484, 0.326753, 0.92, 1)
+
+[node name="Duration" type="Label" parent="Leaderboard/VBoxContainer/Score/DurationRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = " 0s"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Leaderboard/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Leaderboard/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

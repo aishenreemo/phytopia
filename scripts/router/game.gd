@@ -7,11 +7,18 @@ extends State
 @export var camera_2d: Camera2D
 
 var feet_count: int = 0
+var player_name: String
+var planet_name: String
+var time_elapsed: float = 0.0
 
 func enter(_previous_state: String, data: Dictionary):
 	if self.ui_control == null:
 		push_error("UI Control missing")
 		return
+	
+	self.player_name = data["name"]
+	self.planet_name = data["mission"]
+	self.time_elapsed = 0.0
 	
 	self.simulation.show()
 	self.camera_2d.show()
@@ -37,6 +44,9 @@ func enter(_previous_state: String, data: Dictionary):
 	
 	get_tree().paused = false
 
+func physics_update(delta: float):
+	self.time_elapsed += delta
+
 func exit(_next_state: String):
 	self.galaxy_texture.hide()
 	var destination_planet = get_tree().get_first_node_in_group("destination")
@@ -49,6 +59,7 @@ func exit(_next_state: String):
 	self.camera_2d.enabled = false
 	await get_tree().process_frame
 	self.ui_control.show()
+	self.ui_control.hide_all()
 	await self.ui_control.fade_in([self.ui_control], 1)
 	
 	owner.add_child(self.simulation)
@@ -74,4 +85,8 @@ func on_body_shape_exited(_body_rid: RID, body: Node, body_shape_index: int, _lo
 		win_timer.stop()
 
 func _on_win_timer_timeout() -> void:
-	self.finished.emit("home", {})
+	self.finished.emit("leaderboard", {
+		"name": self.player_name,
+		"mission": self.planet_name,
+		"duration": int(self.time_elapsed),
+	})

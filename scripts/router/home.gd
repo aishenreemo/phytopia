@@ -3,7 +3,6 @@ extends State
 @export var ui_control: UIControl
 
 func enter(previous_state: String, _data: Dictionary) -> void:
-	print(previous_state)
 	if self.ui_control == null:
 		push_error("UI Control missing")
 		return
