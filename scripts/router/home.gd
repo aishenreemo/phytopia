@@ -48,6 +48,12 @@ func exit(_next_state: String) -> void:
 	name_prompt.hide()
 	start_button.hide()
 
+func physics_update(_delta: float):
+	if Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().quit()
+	elif Input.is_key_pressed(KEY_ENTER):
+		on_start_button_pressed()
+
 func on_start_button_pressed() -> void:
 	var name_prompt = self.ui_control.get_node("NamePrompt") as LineEdit
 	if name_prompt.text.is_empty():

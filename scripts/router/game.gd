@@ -41,17 +41,40 @@ func enter(_previous_state: String, data: Dictionary):
 			destination_planet.body_shape_exited.disconnect(dictionary["callable"])
 		destination_planet.body_shape_entered.connect(on_body_shape_entered)
 		destination_planet.body_shape_exited.connect(on_body_shape_exited)
+	var label = self.game_control.get_node("MarginContainer/VBoxContainer/HBoxContainer/Label")
+	label.text = "MISSION: GO TO %s" % [data["mission"].to_upper()]
 	
 	get_tree().paused = false
 
 func physics_update(delta: float):
 	self.time_elapsed += delta
-
+	var time_label = self.game_control.get_node("MarginContainer/VBoxContainer/HBoxContainer/Time")
+	time_label.text =  " %dm %02ds" % [int(self.time_elapsed / 60), int(self.time_elapsed) % 60]
+	var win_timer = self.simulation.get_node("WinTimer") as Timer
+	var label = self.game_control.get_node("Label")
+	var hp = self.game_control.get_node("MarginContainer/VBoxContainer/HBoxContainer/ProgressBar")
+	
+	if hp.value <= 0:
+		hp.value = 100.0
+		self.time_elapsed = 0
+		self.finished.emit("home", {})
+	if win_timer.time_left > 0:
+		label.text = str(int(round(win_timer.time_left)))
+		label.show()
+	
+	var vehicle = owner.get_node_or_null("Game/Vehicle")
+	if vehicle != null:
+		if vehicle.position.x < self.camera_2d.limit_left or vehicle.position.x > self.camera_2d.limit_right or vehicle.position.y < self.camera_2d.limit_top or vehicle.position.y > self.camera_2d.limit_bottom:
+			hp.value = 100.0
+			self.time_elapsed = 0
+			self.finished.emit("home", {})
+	
 func exit(_next_state: String):
 	self.galaxy_texture.hide()
 	var destination_planet = get_tree().get_first_node_in_group("destination")
-	destination_planet.remove_from_group("destination")
-	owner.remove_child(self.simulation)
+	if destination_planet != null:
+		destination_planet.remove_from_group("destination")
+	owner.call_deferred("remove_child", self.simulation)
 	self.simulation.request_ready()
 	self.simulation.hide()
 	self.game_control.hide()
@@ -67,12 +90,15 @@ func exit(_next_state: String):
 func on_body_shape_entered(_body_rid: RID, body: Node, body_shape_index: int, _local_shape_index: int):
 	var collision_shape = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var win_timer = self.simulation.get_node("WinTimer") as Timer
-	
 	if collision_shape.name == "Feet":
 		self.feet_count += 1
-	
+
 	if self.feet_count == 2 and win_timer.time_left == 0:
 		win_timer.start()
+		var label = self.game_control.get_node("Label")
+		label.show()
+		label.text = str(int(round(win_timer.time_left)))
+		await self.ui_control.fade_in([label], 0.1)
 
 func on_body_shape_exited(_body_rid: RID, body: Node, body_shape_index: int, _local_shape_index: int):
 	var collision_shape = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
@@ -83,6 +109,10 @@ func on_body_shape_exited(_body_rid: RID, body: Node, body_shape_index: int, _lo
 	
 	if self.feet_count < 2:
 		win_timer.stop()
+		var label = self.game_control.get_node("Label")
+		label.text = ""
+		await self.ui_control.fade_out([label], 0.1)
+		label.hide()
 
 func _on_win_timer_timeout() -> void:
 	self.finished.emit("leaderboard", {
@@ -90,3 +120,13 @@ func _on_win_timer_timeout() -> void:
 		"mission": self.planet_name,
 		"duration": int(self.time_elapsed),
 	})
+
+func _on_game_control_quit() -> void:
+	self.finished.emit("home", {})
+
+func _on_vehicle_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int, local_shape_index: int) -> void:
+	var vehicle = owner.get_node("Game/Vehicle")
+	var collision_shape = vehicle.shape_owner_get_owner(vehicle.shape_find_owner(local_shape_index))
+	if collision_shape.name == "Head" and self.time_elapsed > 5.0:
+		var hp = self.game_control.get_node("MarginContainer/VBoxContainer/HBoxContainer/ProgressBar")
+		hp.value -= 30

@@ -20,6 +20,9 @@ func enter(previous_state: String, data: Dictionary):
 	var dialogue_panel = self.ui_control.get_node("DialoguePanel") as Panel
 	var start_mission_button = self.ui_control.get_node("StartMissionButton") as Button
 	
+	for child in dialogue_panel.get_children():
+		child.hide()
+	dialogue_panel.get_node("%sDialogue" % [data["mission"]]).show()
 	for dictionary in back_button.pressed.get_connections():
 		back_button.pressed.disconnect(dictionary["callable"])
 	

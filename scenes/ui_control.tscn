@@ -229,7 +229,7 @@ anchors_preset = -1
 anchor_left = 0.451562
 anchor_right = 0.654688
 anchor_bottom = 0.921986
-rotation = 0.167624
+rotation = 0.0961507
 pivot_offset = Vector2(173, 180)
 texture = ExtResource("7_bkwn4")
 expand_mode = 2
@@ -407,7 +407,7 @@ anchor_bottom = 0.432203
 offset_top = -62.0
 offset_right = 128.0
 offset_bottom = 66.0
-rotation = 0.0276717
+rotation = 0.0388312
 pivot_offset = Vector2(64, 64)
 texture_normal = ExtResource("10_uhsk0")
 ignore_texture_size = true
@@ -431,7 +431,7 @@ offset_left = -483.437
 offset_top = -545.788
 offset_right = -624.473
 offset_bottom = -594.247
-rotation = 0.167624
+rotation = 0.0961507
 pivot_offset = Vector2(91, 81)
 texture_normal = ExtResource("12_64rsd")
 ignore_texture_size = true
@@ -452,7 +452,7 @@ anchor_right = 1.45
 offset_left = -960.0
 offset_right = -747.0
 offset_bottom = 213.0
-rotation = -0.0933933
+rotation = 0.160489
 pivot_offset = Vector2(106, 106)
 texture_normal = ExtResource("13_sy3ec")
 ignore_texture_size = true
@@ -467,7 +467,6 @@ script = ExtResource("8_f7shj")
 wave_speed = 0.2
 
 [node name="DialoguePanel" type="Panel" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 310.0
 offset_top = 183.81
@@ -475,7 +474,7 @@ offset_right = 1060.0
 offset_bottom = 388.81
 theme_override_styles/panel = SubResource("StyleBoxFlat_3kx2w")
 
-[node name="MarsDialogue1" type="RichTextLabel" parent="DialoguePanel"]
+[node name="MarsDialogue" type="RichTextLabel" parent="DialoguePanel"]
 clip_contents = false
 layout_mode = 0
 offset_left = 82.0
@@ -497,6 +496,53 @@ scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
 
+[node name="EuropaDialogue" type="RichTextLabel" parent="DialoguePanel"]
+visible = false
+clip_contents = false
+layout_mode = 0
+offset_left = 63.0
+offset_top = 15.19
+offset_right = 717.0
+offset_bottom = 162.19
+theme_override_colors/default_color = Color(0.145098, 0.101961, 0.356863, 1)
+theme_override_colors/font_selected_color = Color(0.152941, 0.0941176, 0.364706, 0.607843)
+theme_override_fonts/normal_font = SubResource("SystemFont_veofo")
+theme_override_font_sizes/normal_font_size = 15
+text = "Greetings, Pilot!
+Your mission is to deliver essential scientific equipment to the Europa research outpost.
+• Cargo:  Advanced spectrometers, ice-penetrating radar, and a submersible 
+   exploration drone.
+• Challenges: Europa's icy surface and strong gravitational pull from Jupiter require precise
+   navigation and a controlled descent. 
+• This is a delicate operation-precision is key."
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[node name="TitanDialogue" type="RichTextLabel" parent="DialoguePanel"]
+visible = false
+clip_contents = false
+layout_mode = 0
+offset_left = 72.0
+offset_top = 22.19
+offset_right = 795.0
+offset_bottom = 196.19
+theme_override_colors/default_color = Color(0.145098, 0.101961, 0.356863, 1)
+theme_override_colors/font_selected_color = Color(0.152941, 0.0941176, 0.364706, 0.607843)
+theme_override_fonts/normal_font = SubResource("SystemFont_veofo")
+theme_override_font_sizes/normal_font_size = 14
+text = "Greetings, Pilot!
+Your mission is to deliver vital atmospheric sensors and geological survey equipment  to the Titan
+research station.
+• Cargo:  Atmospheric analyzers, cryogenic sample drills, and a remotely operated aerial drone.
+• Challenges: Titan's thick atmosphere and low gravity require careful management of your descent.
+• This is a complex mission—adaptability is crucial."
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
 [node name="End" type="RichTextLabel" parent="DialoguePanel"]
 layout_mode = 0
 offset_left = 105.0
@@ -512,7 +558,6 @@ deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
 [node name="Earth" type="TextureRect" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0859375
@@ -521,7 +566,7 @@ anchor_right = 0.300781
 anchor_bottom = 0.515278
 offset_top = 54.81
 offset_bottom = 54.8099
-rotation = 0.167624
+rotation = 0.0961507
 pivot_offset = Vector2(137, 135)
 texture = ExtResource("19_mbh0l")
 expand_mode = 1
@@ -558,6 +603,7 @@ vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Leaderboard" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.201562

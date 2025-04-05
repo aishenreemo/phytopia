@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://tge2of72lajn"]
+[gd_scene load_steps=29 format=3 uid="uid://tge2of72lajn"]
 
 [ext_resource type="Texture2D" uid="uid://blptonyadgl71" path="res://assets/images/galaxy.jpg" id="1_e413w"]
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="1_iulga"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://scripts/router/lobby.gd" id="11_g0oy0"]
 [ext_resource type="PackedScene" uid="uid://ckrpxxli32moi" path="res://scenes/game_control.tscn" id="11_o1cve"]
 [ext_resource type="Texture2D" uid="uid://doc1cn2malxbl" path="res://assets/images/planets/titan.svg" id="12_7svse"]
+[ext_resource type="PackedScene" uid="uid://co1lv1gn71owu" path="res://scenes/asteroid.tscn" id="15_361dc"]
 [ext_resource type="Script" path="res://scripts/router/leaderboard.gd" id="24_150wo"]
 [ext_resource type="Script" path="res://scripts/database.gd" id="26_lotpi"]
 
@@ -89,6 +90,117 @@ script = ExtResource("5_7lark")
 sprite = NodePath("../Sprite2D2")
 threshold = 0.016
 multiplier = 0.028
+
+[node name="Asteroid" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(43264, 0)
+
+[node name="Asteroid2" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-43264, 0)
+
+[node name="Asteroid3" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(0, -43264)
+
+[node name="Asteroid4" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(0, 43264)
+
+[node name="Asteroid5" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-35584, 30976)
+
+[node name="Asteroid6" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(32000, -32896)
+
+[node name="Asteroid7" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-29184, -30592)
+
+[node name="Asteroid8" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-36096, 13056)
+
+[node name="Asteroid9" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-39680, 21632)
+
+[node name="Asteroid10" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-42240, -19968)
+
+[node name="Asteroid11" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-40320, -8704)
+
+[node name="Asteroid12" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-44544, -10624)
+
+[node name="Asteroid13" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-16768, -31744)
+
+[node name="Asteroid14" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-12928, -40576)
+
+[node name="Asteroid15" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(15104, -41984)
+
+[node name="Asteroid16" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(25344, -40704)
+
+[node name="Asteroid17" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(36864, -21888)
+
+[node name="Asteroid18" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(36541, -11986)
+
+[node name="Asteroid19" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(44937, -17368)
+
+[node name="Asteroid20" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(30083, -26625)
+
+[node name="Asteroid21" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(41923, -28993)
+
+[node name="Asteroid22" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(20934, -36527)
+
+[node name="Asteroid23" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-8250, -37787)
+
+[node name="Asteroid24" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-24503, -37356)
+
+[node name="Asteroid25" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(41120, 12174)
+
+[node name="Asteroid26" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(35232, 16142)
+
+[node name="Asteroid27" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(42272, 22926)
+
+[node name="Asteroid28" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(33696, 29326)
+
+[node name="Asteroid29" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(24992, 37006)
+
+[node name="Asteroid30" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(17696, 42382)
+
+[node name="Asteroid31" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(37536, 34830)
+
+[node name="Asteroid32" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(43168, 29198)
+
+[node name="Asteroid33" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(27936, 40718)
+
+[node name="Asteroid34" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-14903, 42004)
+
+[node name="Asteroid35" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-28983, 36756)
+
+[node name="Asteroid36" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-29495, 27668)
+
+[node name="Asteroid37" parent="Game/Planets/Sun" instance=ExtResource("15_361dc")]
+position = Vector2(-43575, 11156)
 
 [node name="Mercury" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(5154, 0)
@@ -162,6 +274,15 @@ sprite = NodePath("../Sprite2D2")
 threshold = 0.031
 multiplier = 0.016
 
+[node name="Asteroid" parent="Game/Planets/Earth" instance=ExtResource("15_361dc")]
+position = Vector2(2949, -1743)
+
+[node name="Asteroid2" parent="Game/Planets/Earth" instance=ExtResource("15_361dc")]
+position = Vector2(-3651, -2952)
+
+[node name="Asteroid3" parent="Game/Planets/Earth" instance=ExtResource("15_361dc")]
+position = Vector2(-1872, 1997)
+
 [node name="Moon" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(23616, 0)
 mass = 262.0
@@ -233,6 +354,18 @@ sprite = NodePath("../Sprite2D2")
 threshold = 0.016
 multiplier = 0.024
 
+[node name="Asteroid" parent="Game/Planets/Jupiter" instance=ExtResource("15_361dc")]
+position = Vector2(-5446, 0)
+
+[node name="Asteroid3" parent="Game/Planets/Jupiter" instance=ExtResource("15_361dc")]
+position = Vector2(7748, 8173)
+
+[node name="Asteroid4" parent="Game/Planets/Jupiter" instance=ExtResource("15_361dc")]
+position = Vector2(-1401, 15062)
+
+[node name="Asteroid5" parent="Game/Planets/Jupiter" instance=ExtResource("15_361dc")]
+position = Vector2(2183, -13738)
+
 [node name="Europa" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(60512, 0)
 mass = 231.5
@@ -279,6 +412,24 @@ script = ExtResource("5_7lark")
 sprite = NodePath("../Sprite2D2")
 threshold = 0.016
 multiplier = 0.024
+
+[node name="Asteroid" parent="Game/Planets/Saturn" instance=ExtResource("15_361dc")]
+position = Vector2(-4430, -4042)
+
+[node name="Asteroid2" parent="Game/Planets/Saturn" instance=ExtResource("15_361dc")]
+position = Vector2(6339, -2837)
+
+[node name="Asteroid3" parent="Game/Planets/Saturn" instance=ExtResource("15_361dc")]
+position = Vector2(2548, 5537)
+
+[node name="Asteroid4" parent="Game/Planets/Saturn" instance=ExtResource("15_361dc")]
+position = Vector2(-5886, 2220)
+
+[node name="Asteroid5" parent="Game/Planets/Saturn" instance=ExtResource("15_361dc")]
+position = Vector2(-7040, -1943)
+
+[node name="Asteroid6" parent="Game/Planets/Saturn" instance=ExtResource("15_361dc")]
+position = Vector2(2328, -7419)
 
 [node name="Titan" parent="Game/Planets" node_paths=PackedStringArray("orbit_to") instance=ExtResource("3_77pxh")]
 position = Vector2(85490, 0)
@@ -351,6 +502,8 @@ multiplier = 0.02
 position = Vector2(21976, -279)
 mass = 1.0
 custom_integrator = false
+contact_monitor = true
+max_contacts_reported = 1
 angular_damp_mode = 0
 initial_planet = NodePath("../Planets/Earth")
 camera = NodePath("../../Camera2D")
@@ -406,4 +559,6 @@ visible = false
 script = ExtResource("26_lotpi")
 
 [connection signal="timeout" from="Game/WinTimer" to="Router/Game" method="_on_win_timer_timeout"]
+[connection signal="body_shape_entered" from="Game/Vehicle" to="Router/Game" method="_on_vehicle_body_shape_entered"]
 [connection signal="gear_value_changed" from="UserInterface/GameControl" to="Game/Vehicle" method="_on_game_control_gear_value_changed"]
+[connection signal="quit" from="UserInterface/GameControl" to="Router/Game" method="_on_game_control_quit"]

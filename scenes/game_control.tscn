@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckrpxxli32moi"]
+[gd_scene load_steps=6 format=3 uid="uid://ckrpxxli32moi"]
 
 [ext_resource type="Script" path="res://scripts/game_control.gd" id="1_ky0og"]
+[ext_resource type="FontFile" uid="uid://3wesre6ep2l7" path="res://assets/fonts/Blanka/Blanka-Regular.otf" id="2_w6j2r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qd8e3"]
+bg_color = Color(1, 1, 1, 0.313726)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lsmju"]
+bg_color = Color(1, 0.47903, 0.534126, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qko6d"]
+font = ExtResource("2_w6j2r")
+font_size = 256
+outline_size = 30
+outline_color = Color(0.0720001, 0, 0.27, 1)
 
 [node name="GameControl" type="Control" node_paths=PackedStringArray("gear_slider")]
 layout_mode = 3
@@ -19,15 +32,56 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 200
+theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 200
+theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
-alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
+[node name="Control3" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_qd8e3")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lsmju")
+value = 100.0
+show_percentage = false
+
+[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "MISSION: GO TO MARS"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Time" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0m 00s"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -45,4 +99,26 @@ value = 1.0
 editable = false
 scrollable = false
 
+[node name="WinTimerLabel" type="Label" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.398047
+anchor_top = 0.340509
+anchor_right = 0.601953
+anchor_bottom = 0.659491
+offset_left = -0.5
+offset_top = -11.1667
+offset_right = 0.5
+offset_bottom = 11.1667
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_qko6d")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/VBoxContainer/HSlider" to="." method="_on_gear_value_changed"]
